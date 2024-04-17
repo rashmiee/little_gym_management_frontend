@@ -26,7 +26,7 @@ function Registration() {
       Email : email,
       Password : password
     }
-    const url = 'https://localhost:7040/api/Users/registration';
+    const url = '/api/Users/registration';
     axios.post(url,data).then((result) => {
         alert(result.data)
       }).catch((error) => {
