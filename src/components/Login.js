@@ -1,7 +1,11 @@
 import React from 'react';
+import axios from 'axios'; // Import Axios
 
-export default function Login() {
+function Login() {
+
   return(
     <div>Login</div>
   )
 }
+
+export default Login;
