@@ -60,18 +60,32 @@ function Registration() {
     axios
       .post(url, data)
       .then((result) => {
-        alert(result.data);
+        clear();
+        const dt = result.data;
+        alert(dt.statusMessage);
+
       })
       .catch((error) => {
         alert(error);
       });
   };
 
+  const handleLogin = () => {
+    window.location.url = "/login";
+  }
+
   const validateEmail = (email) => {
     // Email validation regex
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
+  const clear = () => {
+    setFname('');
+    setLname('');
+    setEmail('');
+    setPassword('');
+    setPhoneno('');
+  }
   return (
     <section className="h-100 bg-dark">
       <div className="container py-5 h-100">
@@ -84,76 +98,181 @@ function Registration() {
                     src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img4.webp"
                     alt="Sample photo"
                     className="img-fluid"
-                    style={{ borderTopLeftRadius: '.25rem', borderBottomLeftRadius: '.25rem' }}
+                    style={{
+                      borderTopLeftRadius: ".25rem",
+                      borderBottomLeftRadius: ".25rem",
+                    }}
                   />
                 </div>
                 <div className="col-xl-6">
                   <div className="card-body p-md-5 text-black">
-                    <h3 className="mb-5 text-uppercase text-center">registration form</h3>
-                    <div data-mdb-input-init className={`form-outline mb-4 ${isFnameValid ? '' : 'has-invalid'}`}>
+                    <h3 className="mb-5 text-uppercase text-center">
+                      registration form
+                    </h3>
+                    <div
+                      data-mdb-input-init
+                      className={`form-outline mb-4 ${
+                        isFnameValid ? "" : "has-invalid"
+                      }`}
+                    >
                       <input
                         type="text"
                         id="txtFname"
                         className="form-control form-control-lg"
                         onChange={(e) => handleFnameChange(e.target.value)}
+                        value={fname}
                       />
-                      <label className="form-label d-block text-center" htmlFor="txtFname">
-                        First name {isFnameValid ? '(required)' : '(required - Please enter your first name)'}
+                      <label
+                        className="form-label d-block text-center"
+                        htmlFor="txtFname"
+                      >
+                        First name{" "}
+                        {isFnameValid
+                          ? "(required)"
+                          : "(required - Please enter your first name)"}
                       </label>
                     </div>
-                    <div data-mdb-input-init className={`form-outline mb-4 ${isLnameValid ? '' : 'has-invalid'}`}>
+                    <div
+                      data-mdb-input-init
+                      className={`form-outline mb-4 ${
+                        isLnameValid ? "" : "has-invalid"
+                      }`}
+                    >
                       <input
                         type="text"
                         id="txtLname"
                         className="form-control form-control-lg"
                         onChange={(e) => handleLnameChange(e.target.value)}
+                        value={lname}
                       />
-                      <label className="form-label d-block text-center" htmlFor="txtLname">
-                        Last name {isLnameValid ? '(required)' : '(required - Please enter your last name)'}
+                      <label
+                        className="form-label d-block text-center"
+                        htmlFor="txtLname"
+                      >
+                        Last name{" "}
+                        {isLnameValid
+                          ? "(required)"
+                          : "(required - Please enter your last name)"}
                       </label>
                     </div>
-                    <div data-mdb-input-init className={`form-outline mb-4 ${isPhoneValid ? '' : 'has-invalid'}`}>
+                    <div
+                      data-mdb-input-init
+                      className={`form-outline mb-4 ${
+                        isPhoneValid ? "" : "has-invalid"
+                      }`}
+                    >
                       <input
                         type="text"
                         id="txtPhoneno"
-                        className={`form-control form-control-lg ${isPhoneValid ? '' : 'is-invalid'}`}
+                        className={`form-control form-control-lg ${
+                          isPhoneValid ? "" : "is-invalid"
+                        }`}
                         onChange={(e) => handlePhonenoChange(e.target.value)}
+                        value={phoneno}
                       />
-                      <label className="form-label d-block text-center" htmlFor="txtPhoneno">
-                        Phone Number {isPhoneValid ? '(required)' : '(required - Please enter a valid 10-digit phone number)'}
+                      <label
+                        className="form-label d-block text-center"
+                        htmlFor="txtPhoneno"
+                      >
+                        Phone Number{" "}
+                        {isPhoneValid
+                          ? "(required)"
+                          : "(required - Please enter a valid 10-digit phone number)"}
                       </label>
-                      {!isPhoneValid && <div className="invalid-feedback">Please enter a valid 10-digit phone number.</div>}
+                      {!isPhoneValid && (
+                        <div className="invalid-feedback">
+                          Please enter a valid 10-digit phone number.
+                        </div>
+                      )}
                     </div>
-                    <div data-mdb-input-init className={`form-outline mb-4 ${isPasswordValid ? '' : 'has-invalid'}`}>
+                    <div
+                      data-mdb-input-init
+                      className={`form-outline mb-4 ${
+                        isPasswordValid ? "" : "has-invalid"
+                      }`}
+                    >
                       <input
                         type="password"
-                        id="form3Example1n1"
-                        className={`form-control form-control-lg ${isPasswordValid ? '' : 'is-invalid'}`}
+                        id="txtPassword"
+                        className={`form-control form-control-lg ${
+                          isPasswordValid ? "" : "is-invalid"
+                        }`}
                         onChange={(e) => handlePasswordChange(e.target.value)}
+                        value={password}
                       />
-                      <label className="form-label d-block text-center" htmlFor="form3Example1n1">
-                        Password {isPasswordValid ? '(required)' : '(required - Password must be at least 5 characters long)'}
+                      <label
+                        className="form-label d-block text-center"
+                        htmlFor="txtPassword"
+                      >
+                        Password{" "}
+                        {isPasswordValid
+                          ? "(required)"
+                          : "(required - Password must be at least 5 characters long)"}
                       </label>
-                      {!isPasswordValid && <div className="invalid-feedback">Password must be at least 5 characters long.</div>}
+                      {!isPasswordValid && (
+                        <div className="invalid-feedback">
+                          Password must be at least 5 characters long.
+                        </div>
+                      )}
                     </div>
-                    <div data-mdb-input-init className={`form-outline mb-4 ${isEmailValid ? '' : 'has-invalid'}`}>
+                    <div
+                      data-mdb-input-init
+                      className={`form-outline mb-4 ${
+                        isEmailValid ? "" : "has-invalid"
+                      }`}
+                    >
                       <input
                         type="email"
                         id="txtEmail"
-                        className={`form-control form-control-lg ${isEmailValid ? '' : 'is-invalid'}`}
+                        className={`form-control form-control-lg ${
+                          isEmailValid ? "" : "is-invalid"
+                        }`}
                         onChange={(e) => handleEmailChange(e.target.value)}
+                        value={email}
                       />
-                      <label className="form-label d-block text-center" htmlFor="txtEmail">
-                        Email {isEmailValid ? '(required)' : '(required - Please enter a valid email address)'}
+                      <label
+                        className="form-label d-block text-center"
+                        htmlFor="txtEmail"
+                      >
+                        Email{" "}
+                        {isEmailValid
+                          ? "(required)"
+                          : "(required - Please enter a valid email address)"}
                       </label>
-                      {!isEmailValid && <div className="invalid-feedback">Please enter a valid email address.</div>}
+                      {!isEmailValid && (
+                        <div className="invalid-feedback">
+                          Please enter a valid email address.
+                        </div>
+                      )}
                     </div>
                     <div className="d-flex justify-content-center pt-3">
-                      <button type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-light btn-lg">
+                      <button
+                        type="button"
+                        data-mdb-button-init
+                        data-mdb-ripple-init
+                        className="btn btn-light btn-lg"
+                      >
                         Reset all
                       </button>
-                      <button type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-warning btn-lg ms-2" onClick={() => handleSave()}>
+                      <button
+                        type="button"
+                        data-mdb-button-init
+                        data-mdb-ripple-init
+                        className="btn btn-warning btn-lg ms-2"
+                        onClick={() => handleSave()}
+                      >
                         Submit form
+                      </button>
+                    </div>
+                    <div className="d-flex justify-content-center pt-3">
+                      <button
+                        type="button"
+                        data-mdb-button-init
+                        data-mdb-ripple-init
+                        className="btn btn-warning btn-lg ms-2"
+                        onClick={() => handleLogin()}
+                      >
+                        Login
                       </button>
                     </div>
                   </div>
