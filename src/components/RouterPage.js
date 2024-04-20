@@ -1,25 +1,22 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login  from './Login'; // Import Login component
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-// Import other components
+import Login  from './Login';
 import Registration  from './Registration';
-import Dashboard from './users/Dashboard';
-import Profile from './users/Profile';
-import AdminDashboard from './admin/AdminDashboard';
-import AdminProfile from './admin/AdminProfile';
+import UserDashboard from './UserDashboard';
+import AdminDashboard from './AdminDashboard';
+import TeacherDashboard from './TeacherDashboard';
 
-export default function RouterPage() {
+export default function RouterPage()
+{
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" exact element={<Login />} />
         <Route path="/registration" element={<Registration />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<Profile />} />
-
-        <Route path="/admindashboard" element={<AdminDashboard />} />
-        <Route path="/adminprofile" element={<AdminProfile />} />
+        <Route path="/userDashboard" element={<UserDashboard />} />
+        <Route path="/adminDashboard" element={<AdminDashboard />} />
+        <Route path="/teacherDashboard" element={<TeacherDashboard />} />
       </Routes>
     </Router>
   );

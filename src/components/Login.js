@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Import Axios
+import {useNavigate, Link} from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,7 +19,21 @@ function Login() {
     })
     .then((response) => {
       const dt = response.data;
-      alert(dt.statusMessage);
+      if(dt.statusCode === 200) {
+        if(email === "admin@admin.com" && password === "admin") {
+          localStorage.setItem("userType", "Admin");
+          localStorage.setItem("userEmail", email);
+          navigate("/adminDashboard");
+        } else {
+          localStorage.setItem("userEmail", email);
+          localStorage.setItem("userType", dt.userType);
+          if(dt.userType === 'Teachers') {
+            navigate("/teacherDashboard");
+          } else {
+            navigate("/userDashboard");
+          }
+        }
+      }
     })
     .catch((error) => {
       alert(error);
