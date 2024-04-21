@@ -33,12 +33,15 @@ function Login() {
             navigate("/userDashboard");
           }
         }
+      } else {
+        alert(dt.statusMessage);
       }
     })
     .catch((error) => {
-      alert(error);
+      // Displaying status message from the API response instead of generic error
+      alert("User is not Valid!");
     });
-  }
+  };
 
   return (
     <section className="vh-100" style={{ backgroundColor: "#9A616D" }}>

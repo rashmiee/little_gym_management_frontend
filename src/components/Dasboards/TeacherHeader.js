@@ -12,18 +12,7 @@ export default function UserHeader() {
     } else {
       setEmail(userEmail);
     }
-
-    const handleBeforeUnload = (event) => {
-      localStorage.removeItem("userEmail");
-      // Optional: Perform additional cleanup or actions here before the user leaves
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [navigate]);
+  });
 
   const logout = (e) => {
     e.preventDefault();
@@ -57,9 +46,7 @@ export default function UserHeader() {
               <a className="nav-link" href="#">
                 Features
               </a>
-              <a className="nav-link" href="#">
-                Pricing
-              </a>
+              <Link to="/childRegistration" className="nav-link">Child Registration</Link>
               <a className="nav-link disabled">Disabled</a>
             </div>
             <button className="btn btn-outline-danger" onClick={logout}>

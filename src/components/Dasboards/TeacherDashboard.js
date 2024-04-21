@@ -1,9 +1,9 @@
 import React from "react";
-import UserHeader from "./UserHeader";
+import TeacherHeader from "./TeacherHeader";
 
 export default function TeacherDashboard()
 {
   return (
-    <UserHeader />
+    <TeacherHeader />
   );
 }

@@ -3,34 +3,23 @@ import {useNavigate, Link} from "react-router-dom";
  // Assuming you are using React Router
 
  export default function UserHeader() {
-   const navigate = useNavigate();
-   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
 
-   useEffect(() => {
-     const userEmail = localStorage.getItem("userEmail");
-     if (!userEmail) {
-       navigate("/");
-     } else {
-       setEmail(userEmail);
-     }
+  useEffect(() => {
+    const userEmail = localStorage.getItem("userEmail");
+    if (!userEmail) {
+      navigate("/");
+    } else {
+      setEmail(userEmail);
+    }
+  });
 
-     const handleBeforeUnload = (event) => {
-       localStorage.removeItem("userEmail");
-       // Optional: Perform additional cleanup or actions here before the user leaves
-     };
-
-     window.addEventListener("beforeunload", handleBeforeUnload);
-
-     return () => {
-       window.removeEventListener("beforeunload", handleBeforeUnload);
-     };
-   }, [navigate]);
-
-   const logout = (e) => {
-     e.preventDefault();
-     localStorage.removeItem("userEmail");
-     navigate("/");
-   };
+  const logout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("userEmail");
+    navigate("/");
+  };
 
    return (
      <Fragment>
@@ -58,9 +47,7 @@ import {useNavigate, Link} from "react-router-dom";
                <a className="nav-link" href="#">
                  Features
                </a>
-               <a className="nav-link" href="#">
-                 Pricing
-               </a>
+               <Link to="/teacherRegistration" className="nav-link">Teacher Registration</Link>
                <a className="nav-link disabled">Disabled</a>
              </div>
              <button className="btn btn-outline-danger" onClick={logout}>

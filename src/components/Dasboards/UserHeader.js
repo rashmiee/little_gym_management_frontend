@@ -12,18 +12,7 @@ export default function UserHeader() {
     } else {
       setEmail(userEmail);
     }
-
-    const handleBeforeUnload = (event) => {
-      localStorage.removeItem("userEmail");
-      // Optional: Perform additional cleanup or actions here before the user leaves
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [navigate]);
+  });
 
   const logout = (e) => {
     e.preventDefault();
