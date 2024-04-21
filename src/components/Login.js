@@ -72,7 +72,7 @@ function Login() {
                           type="email"
                           id="form2Example17"
                           className="form-control form-control-lg"
-                          onChange={(e) => setEmail(e.target.value)}
+                          onChange={(e) => setEmail(e.target.value)} required
                         />
                         <label className="form-label" htmlFor="form2Example17">
                           Email address
@@ -84,7 +84,7 @@ function Login() {
                           type="password"
                           id="form2Example27"
                           className="form-control form-control-lg"
-                          onChange={(e) => setPassword(e.target.value)}
+                          onChange={(e) => setPassword(e.target.value)} required
                         />
                         <label className="form-label" htmlFor="form2Example27">
                           Password

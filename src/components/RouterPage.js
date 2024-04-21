@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Login  from './Login';
 import Registration  from './Registration';
-import UserDashboard from './UserDashboard';
-import AdminDashboard from './AdminDashboard';
-import TeacherDashboard from './TeacherDashboard';
+import UserDashboard from './Dasboards/UserDashboard';
+import AdminDashboard from './Dasboards/AdminDashboard';
+import TeacherDashboard from './Dasboards/TeacherDashboard';
 
 export default function RouterPage()
 {
