@@ -5,6 +5,7 @@ import TeacherHeader from "../Dasboards/TeacherHeader";
 export default function AddLessonToClassSession() {
   const [classSessions, setClassSessions] = useState([]);
   const [lessons, setLessons] = useState([]);
+  const [sessionLessonMap, setSessionLessonMap] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -15,13 +16,17 @@ export default function AddLessonToClassSession() {
   const fetchClassSessions = () => {
     axios.get("/api/ClassSession/getClassSessions")
       .then(response => {
-        // Fetch the selected lesson for each class session
-        const updatedClassSessions = response.data.map(session => {
-          const selectedLesson = lessons.find(lesson => lesson.lesson_id === session.lesson_id);
-          return { ...session, selectedLesson };
-        });
+        const sessions = response.data;
+        setClassSessions(sessions);
 
-        setClassSessions(updatedClassSessions);
+        // Create a map to store session IDs with their associated lesson IDs
+        const sessionLessonMap = {};
+        sessions.forEach(session => {
+          sessionLessonMap[session.sessionClassId] = session.lesson_id; // Ensure correct property name
+        });
+        console.log("Session Lesson Map:", sessionLessonMap); // Log the sessionLessonMap
+        setSessionLessonMap(sessionLessonMap);
+
         setIsLoaded(true);
       })
       .catch(error => {
@@ -35,21 +40,19 @@ export default function AddLessonToClassSession() {
         setLessons(response.data);
       })
       .catch(error => {
+        console.error('Error fetching lessons:', error);
       });
   };
 
   const handleLessonChange = (sessionClassId, lessonId) => {
     axios.post(`/api/ClassSession/addClassSessionLesson?classSessionId=${sessionClassId}&lesson_Id=${lessonId}`)
       .then(response => {
-        // Update selected lesson for the class session
-        const updatedClassSessions = classSessions.map(session => {
-          if (session.sessionClassId === sessionClassId) {
-            return { ...session, selectedLesson: lessonId };
-          }
-          return session;
-        });
-        setClassSessions(updatedClassSessions);
         alert(response.data.statusMessage);
+        // Update sessionLessonMap with the new lesson ID
+        setSessionLessonMap(prevState => ({
+          ...prevState,
+          [sessionClassId]: lessonId
+        }));
       })
       .catch(error => {
         console.error('Error setting lesson:', error);
@@ -78,20 +81,20 @@ export default function AddLessonToClassSession() {
                       <td>{session.sessionClassId}</td>
                       <td>{session.startTime}</td>
                       <td>
-                      <select
-                        className="form-select"
-                        value={session.selectedLesson ? session.selectedLesson.lesson_id : ''} // Use selected lesson ID
-                        onChange={(e) => handleLessonChange(session.sessionClassId, e.target.value)}
-                      >
-                        <option value="">Select Lesson</option>
-                        {lessons.map((lesson) => {
-                          return (
-                            <option key={lesson.lesson_id} value={lesson.lesson_id}>
-                              {lesson.name}
-                            </option>
-                          );
-                        })}
-                      </select>
+                        <select
+                          className="form-select"
+                          value={sessionLessonMap[session.sessionClassId] || ''}
+                          onChange={(e) => handleLessonChange(session.sessionClassId, e.target.value)}
+                        >
+                          <option value="">Select Lesson</option>
+                          {lessons.map((lesson) => {
+                            return (
+                              <option key={lesson.lesson_id} value={lesson.lesson_id}>
+                                {lesson.name}
+                              </option>
+                            );
+                          })}
+                        </select>
                       </td>
                     </tr>
                   ))}
