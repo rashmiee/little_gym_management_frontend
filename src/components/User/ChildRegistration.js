@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import axios from 'axios';
-import TeacherHeader from "../Dasboards/TeacherHeader";
+import UserHeader from "../Dasboards/UserHeader";
 
 export default function ChildRegistration()
 {
@@ -115,7 +115,7 @@ export default function ChildRegistration()
 
   return (
     <Fragment>
-      <TeacherHeader />
+      <UserHeader />
       {/* Registration Form */}
       <section>
         <div className="card card-registration my-4">

@@ -12,6 +12,9 @@ import TeacherRegistration from './Admin/TeacherRegistration';
 import ChildRegistration from './User/ChildRegistration';
 //ClassSeeion
 import AddClassSession from './Admin/AddClassSession';
+import AddLessonToClassSession from './Teacher/AddLessonToClassSession'
+//Lesson
+import AddLesson from './Teacher/AddLesson';
 
 export default function RouterPage()
 {
@@ -29,6 +32,9 @@ export default function RouterPage()
         <Route path="/childRegistration" element={<ChildRegistration />} />
         {/* ClassSession */}
         <Route path="/addClassSession" element={<AddClassSession />} />
+        <Route path="/addLessonToClassSession" element={<AddLessonToClassSession />} />
+        {/* Lesson */}
+        <Route path="/addLesson" element={<AddLesson />} />
       </Routes>
     </Router>
   );

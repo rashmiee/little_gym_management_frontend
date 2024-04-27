@@ -46,7 +46,8 @@ export default function UserHeader() {
               <a className="nav-link" href="#">
                 Features
               </a>
-              <Link to="/childRegistration" className="nav-link">Child Registration</Link>
+              <Link to="/addLesson" className="nav-link">Child Registration</Link>
+              <Link to="/addLessonToClassSession" className="nav-link">Add Lesson To ClassSession</Link>
               <a className="nav-link disabled">Disabled</a>
             </div>
             <button className="btn btn-outline-danger" onClick={logout}>
