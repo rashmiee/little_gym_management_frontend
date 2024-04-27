@@ -10,6 +10,8 @@ import TeacherDashboard from './Dasboards/TeacherDashboard';
 // Resgistrations
 import TeacherRegistration from './Admin/TeacherRegistration';
 import ChildRegistration from './User/ChildRegistration';
+//ClassSeeion
+import AddClassSession from './Admin/AddClassSession';
 
 export default function RouterPage()
 {
@@ -25,6 +27,8 @@ export default function RouterPage()
         {/* Resgistrations */}
         <Route path="/teacherRegistration" element={<TeacherRegistration />} />
         <Route path="/childRegistration" element={<ChildRegistration />} />
+        {/* ClassSession */}
+        <Route path="/addClassSession" element={<AddClassSession />} />
       </Routes>
     </Router>
   );

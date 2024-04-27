@@ -48,6 +48,7 @@ import {useNavigate, Link} from "react-router-dom";
                  Features
                </a>
                <Link to="/teacherRegistration" className="nav-link">Teacher Registration</Link>
+               <Link to="/addClassSession" className="nav-link">Class Creation</Link>
                <a className="nav-link disabled">Disabled</a>
              </div>
              <button className="btn btn-outline-danger" onClick={logout}>
