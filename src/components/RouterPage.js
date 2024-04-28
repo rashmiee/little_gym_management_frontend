@@ -10,11 +10,15 @@ import TeacherDashboard from './Dasboards/TeacherDashboard';
 // Resgistrations
 import TeacherRegistration from './Admin/TeacherRegistration';
 import ChildRegistration from './User/ChildRegistration';
-//ClassSeeion
+// ClassSeeion
 import AddClassSession from './Admin/AddClassSession';
 import AddLessonToClassSession from './Teacher/AddLessonToClassSession'
-//Lesson
+// Lesson
 import AddLesson from './Teacher/AddLesson';
+// Skill
+import AddSkill from './Teacher/AddSkill';
+// SkillProgress
+import SkillProgress from './Teacher/SkillProgress';
 
 export default function RouterPage()
 {
@@ -35,6 +39,10 @@ export default function RouterPage()
         <Route path="/addLessonToClassSession" element={<AddLessonToClassSession />} />
         {/* Lesson */}
         <Route path="/addLesson" element={<AddLesson />} />
+        {/* Skill */}
+        <Route path="/addSkill" element={<AddSkill />} />
+        {/* SkillProgress */}
+        <Route path="/skillProgress" element={<SkillProgress />} />
       </Routes>
     </Router>
   );
