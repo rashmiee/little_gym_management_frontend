@@ -1,5 +1,6 @@
-import React, { Fragment, useEffect, useState} from "react";
-import {useNavigate, Link} from "react-router-dom";
+import React, { Fragment, useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import '../styles/headerStyle.css';
 
 export default function UserHeader() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ export default function UserHeader() {
     } else {
       setEmail(userEmail);
     }
-  });
+  }, []); // Adding an empty dependency array to useEffect to run only once
 
   const logout = (e) => {
     e.preventDefault();
@@ -22,40 +23,39 @@ export default function UserHeader() {
 
   return (
     <Fragment>
-      <nav className="navbar navbar-expand-lg navbar-light bg-body-tertiary">
-        <div className="container-fluid">
+      <nav className="top-navbar navbar navbar-expand-lg navbar-light">
+        <div className="container">
           <a className="navbar-brand" href="#">
             Welcome {email}
           </a>
           <button
-            data-mdb-collapse-init
             className="navbar-toggler"
             type="button"
-            data-mdb-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <i className="fas fa-bars"></i>
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div className="navbar-nav">
-              <a className="nav-link active" aria-current="page" href="#">
-                Home
-              </a>
-              <a className="nav-link" href="#">
-                Features
-              </a>
-              <a className="nav-link" href="#">
-                Pricing
-              </a>
-              <Link to="/childRegistration" className="nav-link">Child Registration</Link>
-              <a className="nav-link disabled">Disabled</a>
-            </div>
-            <button className="btn btn-outline-danger" onClick={logout}>
-              Logout
-            </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item">
+                <Link to="/userDashboard" className="nav-link">
+                  Home
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/childRegistration" className="nav-link">
+                  Child Registration
+                </Link>
+              </li>
+            </ul>
           </div>
+          <button className="et-button medium stylish-button" onClick={logout}>
+            Logout
+          </button>
         </div>
       </nav>
     </Fragment>
