@@ -25,12 +25,10 @@ export default function RouterPage() {
   const [userType, setUserType] = useState('');
 
   useEffect(() => {
-    // Get user type from local storage
     const storedUserType = localStorage.getItem('userType');
     setUserType(storedUserType);
   }, []);
 
-  // Render routes based on user type
   const renderRoutes = () => {
     return (
       <Routes>
