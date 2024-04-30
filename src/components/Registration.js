@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './styles/registrationStyle.css';
+import logo from './images/logo.png';
 
 function Registration() {
   const [fname, setFname] = useState('');
@@ -42,6 +43,8 @@ function Registration() {
     setPhoneno(value);
     // Phone number validation
     setIsPhoneValid(value.length === 10 && /^\d+$/.test(value));
+    console.log("Phone Number:", value); // Check if value is updating correctly
+    console.log("IsPhoneValid:", isPhoneValid); // Check if validation state is updating correctly
   };
 
   const handleSave = () => {
@@ -87,7 +90,7 @@ function Registration() {
     setPhoneno('');
   }
   return (
-    <section className="h-100 bg-dark">
+    <section className="h-100">
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col">
@@ -95,8 +98,8 @@ function Registration() {
               <div className="row g-0">
                 <div className="col-xl-6 d-none d-xl-block">
                   <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img4.webp"
-                    alt="Sample photo"
+                    src={require('./images/register.jpg')}
+                    alt="registration form"
                     className="img-fluid"
                     style={{
                       borderTopLeftRadius: ".25rem",
@@ -106,9 +109,16 @@ function Registration() {
                 </div>
                 <div className="col-xl-6">
                   <div className="card-body p-md-5 text-black">
-                    <h3 className="mb-5 text-uppercase text-center">
-                      registration form
-                    </h3>
+                    <div className="d-flex align-items-center pb-3">
+                      <i className="fas fa-user-plus fa-2x me-3" style={{ color: "#ff6219" }}></i>
+                      <span className="h1 fw-bold mb-0">Little Gym Management System</span>
+                      <img src={logo} alt="Logo" style={{ width: '170px', height: '170px', borderRadius: '50%' }} />
+                    </div>
+
+                    <h5 className="fw-normal pb-3 text-center" style={{ letterSpacing: "1px" }}>
+                      Fill in the form to register
+                    </h5>
+
                     <div
                       data-mdb-input-init
                       className={`form-outline mb-4 ${
@@ -123,7 +133,7 @@ function Registration() {
                         value={fname}
                       />
                       <label
-                        className="form-label d-block text-center"
+                        className="form-label d-block custome-label-style"
                         htmlFor="txtFname"
                       >
                         First name{" "}
@@ -132,6 +142,7 @@ function Registration() {
                           : "(required - Please enter your first name)"}
                       </label>
                     </div>
+
                     <div
                       data-mdb-input-init
                       className={`form-outline mb-4 ${
@@ -146,7 +157,7 @@ function Registration() {
                         value={lname}
                       />
                       <label
-                        className="form-label d-block text-center"
+                        className="form-label d-block custome-label-style"
                         htmlFor="txtLname"
                       >
                         Last name{" "}
@@ -155,6 +166,7 @@ function Registration() {
                           : "(required - Please enter your last name)"}
                       </label>
                     </div>
+
                     <div
                       data-mdb-input-init
                       className={`form-outline mb-4 ${
@@ -171,7 +183,7 @@ function Registration() {
                         value={phoneno}
                       />
                       <label
-                        className="form-label d-block text-center"
+                        className="form-label d-block custome-label-style"
                         htmlFor="txtPhoneno"
                       >
                         Phone Number{" "}
@@ -185,36 +197,7 @@ function Registration() {
                         </div>
                       )}
                     </div>
-                    <div
-                      data-mdb-input-init
-                      className={`form-outline mb-4 ${
-                        isPasswordValid ? "" : "has-invalid"
-                      }`}
-                    >
-                      <input
-                        type="password"
-                        id="txtPassword"
-                        className={`form-control form-control-lg ${
-                          isPasswordValid ? "" : "is-invalid"
-                        }`}
-                        onChange={(e) => handlePasswordChange(e.target.value)}
-                        value={password}
-                      />
-                      <label
-                        className="form-label d-block text-center"
-                        htmlFor="txtPassword"
-                      >
-                        Password{" "}
-                        {isPasswordValid
-                          ? "(required)"
-                          : "(required - Password must be at least 5 characters long)"}
-                      </label>
-                      {!isPasswordValid && (
-                        <div className="invalid-feedback">
-                          Password must be at least 5 characters long.
-                        </div>
-                      )}
-                    </div>
+
                     <div
                       data-mdb-input-init
                       className={`form-outline mb-4 ${
@@ -231,7 +214,7 @@ function Registration() {
                         value={email}
                       />
                       <label
-                        className="form-label d-block text-center"
+                        className="form-label d-block custome-label-style"
                         htmlFor="txtEmail"
                       >
                         Email{" "}
@@ -245,36 +228,56 @@ function Registration() {
                         </div>
                       )}
                     </div>
-                    <div className="d-flex justify-content-center pt-3">
-                      <button
-                        type="button"
-                        data-mdb-button-init
-                        data-mdb-ripple-init
-                        className="btn btn-light btn-lg"
+
+                    <div
+                      data-mdb-input-init
+                      className={`form-outline mb-4 ${
+                        isPasswordValid ? "" : "has-invalid"
+                      }`}
+                    >
+                      <input
+                        type="password"
+                        id="txtPassword"
+                        className={`form-control form-control-lg ${
+                          isPasswordValid ? "" : "is-invalid"
+                        }`}
+                        onChange={(e) => handlePasswordChange(e.target.value)}
+                        value={password}
+                      />
+                      <label
+                        className="form-label d-block custome-label-style"
+                        htmlFor="txtPassword"
                       >
-                        Reset all
-                      </button>
+                        Password{" "}
+                        {isPasswordValid
+                          ? "(required)"
+                          : "(required - Password must be at least 5 characters long)"}
+                      </label>
+                      {!isPasswordValid && (
+                        <div className="invalid-feedback">
+                          Password must be at least 5 characters long.
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="d-flex justify-content-left pt-2 mb-4">
+
                       <button
                         type="button"
                         data-mdb-button-init
                         data-mdb-ripple-init
-                        className="btn btn-warning btn-lg ms-2"
+                        className="btn btn-dark btn-lg btn-block"
                         onClick={() => handleSave()}
                       >
                         Submit form
                       </button>
                     </div>
-                    <div className="d-flex justify-content-center pt-3">
-                      <button
-                        type="button"
-                        data-mdb-button-init
-                        data-mdb-ripple-init
-                        className="btn btn-warning btn-lg ms-2"
-                        onClick={() => handleLogin()}
-                      >
-                        Login
-                      </button>
-                    </div>
+                    <p className="" style={{ color: "#393f81" }}>
+                      Already Registered?{" "}
+                      <a href="/" style={{ color: "#393f81" }}>
+                        Login here
+                      </a>
+                    </p>
                   </div>
                 </div>
               </div>
