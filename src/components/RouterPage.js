@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 // Import your components
 import Login from './Login';
 import Registration from './Registration';
+import ForgotPassword from './ForgotPassword';
 // Dashboards
 import UserDashboard from './Dasboards/UserDashboard';
 import AdminDashboard from './Dasboards/AdminDashboard';
@@ -34,6 +35,7 @@ export default function RouterPage() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
         {/* Admin routes */}
         {userType === 'Admin' && (
           <>
