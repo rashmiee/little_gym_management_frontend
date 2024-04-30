@@ -26,7 +26,7 @@ export default function UserHeader() {
       <nav className="top-navbar navbar navbar-expand-lg navbar-light">
         <div className="container">
           <a className="navbar-brand" href="#">
-            Welcome {email}
+            Welcome
           </a>
           <button
             className="navbar-toggler"

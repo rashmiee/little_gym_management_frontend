@@ -28,7 +28,7 @@ import '../styles/headerStyle.css';
       <nav className="top-navbar navbar navbar-expand-lg navbar-light">
         <div className="container">
           <a className="navbar-brand" href="#">
-            Welcome {email} {/* Your existing email placeholder */}
+            Welcome
           </a>
           <button
             className="navbar-toggler"
