@@ -62,7 +62,7 @@ export default function RouterPage() {
           </>
         )}
         {/* Redirect to dashboard if unauthorized */}
-        <Route path="*" element={<Navigate to={`/${userType.toLowerCase()}Dashboard`} />} />
+        {/* <Route path="*" element={<Navigate to={`/${userType.toLowerCase()}Dashboard`} />} /> */}
       </Routes>
     );
   };

@@ -313,3 +313,51 @@ button:hover {
   text-align: center; /* Center align text */
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1); /* Inset box-shadow for 3D effect */
 }
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  display: flex !important; /* Hidden by default */
+  justify-content: center; /* Center modal horizontally */
+  align-items: center; /* Center modal vertically */
+}
+
+.modal.active {
+  display: flex !important; /* Show modal when active */
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  width: 50;
+}
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.close i {
+  font-size: 1.5rem;
+  color: #fff; /* Set the text color to white */
+  background-color: #880808; /* Set background color to red */
+  padding: 8px; /* Add padding to create some space around the icon */
+  border-radius: 5px; /* Set a small border-radius for square shape */
+  transition: transform 0.3s, box-shadow 0.3s; /* Add transition for animation */
+}
+
+.close i:hover {
+  transform: scale(1.1); /* Increase size on hover for 3D effect */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add shadow on hover */
+}
+.bold-label {
+  font-weight: bold;
+  text-align: center;
+}
+

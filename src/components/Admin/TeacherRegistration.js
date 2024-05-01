@@ -31,7 +31,7 @@ export default function TeacherRegistration() {
 
   const handleUpdate = (updatedTeacher) => {
     axios
-      .put(`/api/Users/update/${updatedTeacher.id}`, updatedTeacher)
+      .put(`/api/Users/${updatedTeacher.id}`, updatedTeacher)
       .then((result) => {
         alert(result.data.statusMessage);
         closeEditModal(); // Close the modal after successful update
