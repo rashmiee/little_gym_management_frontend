@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AdminHeader from "../Dasboards/AdminHeader";
+import "../styles/regFormStyle.css";
 
 export default function AddClassSession() {
   const [name, setName] = useState('');
@@ -90,7 +92,7 @@ export default function AddClassSession() {
     return formattedTime;
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!isNameValid || !isCategoryValid || !isPriceValid || !isStartTimeValid || !isStartDateValid || !isEndDateValid) {
       alert('Please fill in all fields correctly.');
       return;
@@ -101,7 +103,7 @@ export default function AddClassSession() {
 
     // Convert image to base64 string
     const reader = new FileReader();
-    reader.onloadend = () => {
+    reader.onloadend = async () => {
       const base64Image = reader.result;
 
       const formData = new FormData();
@@ -115,20 +117,32 @@ export default function AddClassSession() {
       formData.append('EndDate', endDate);
 
       const url = '/api/ClassSession/addClassSession';
-      axios
-        .post(url, formData, {
+      try {
+        const result = await axios.post(url, formData, {
           headers: {
             'Content-Type': 'application/json' // Set content type to JSON
           }
-        })
-        .then((result) => {
-          clear();
-          const dt = result.data;
-          alert(dt.statusMessage);
-        })
-        .catch((error) => {
-          alert(error.message);
         });
+        const dt = result.data;
+        alert(dt.statusMessage);
+
+        // Update class sessions state with the newly added session
+        setClassSessions(prevState => [...prevState, {
+          id: dt.id, // Assuming dt.id contains the id of the newly added session
+          name,
+          category,
+          description,
+          image: base64Image,
+          price: parseFloat(price),
+          startTime: formattedStartTime,
+          startDate,
+          endDate
+        }]);
+
+        clear();
+      } catch (error) {
+        alert(error.message);
+      }
     };
 
     // Read the image file as base64
@@ -157,210 +171,210 @@ export default function AddClassSession() {
       <AdminHeader />
       {/* Add Class Form */}
       <section>
-        <div className="card card-registration my-4">
-          <div className="card-body p-md-5 text-black">
-            <h3 className="mb-5 text-uppercase text-center">
-              Add Class Session
-            </h3>
-            <div
-              data-mdb-input-init
-              className={`form-outline mb-4 ${
-                isNameValid ? "" : "has-invalid"
-              }`}
-            >
-              <input
-                type="text"
-                id="txtName"
-                className="form-control form-control-lg"
-                onChange={(e) => handleNameChange(e.target.value)}
-                value={name}
-              />
-              <label
-                className="form-label d-block text-center"
-                htmlFor="txtName"
+        <div className="testbox">
+          <form>
+            <div className="banner">
+              <h1>Class Session Form</h1>
+            </div>
+            <br />
+            <fieldset>
+              <legend>Add Class Information</legend>
+              <div class="column-custom">
+                <div
+                data-mdb-input-init
+                className={`form-outline mb-4 ${
+                  isNameValid ? "" : "has-invalid"
+                }`}
               >
-                Name{" "}
-                {isNameValid
-                  ? "(required)"
-                  : "(required - Please enter the class name)"}
-              </label>
-            </div>
-            <div className="form-group mb-4">
-              <label htmlFor="categorySelect">Category</label>
-              <select
-                className={`form-control form-control-lg ${isCategoryValid ? "" : "is-invalid"}`}
-                id="categorySelect"
-                value={category}
-                onChange={(e) => handleCategoryChange(e.target.value)}
-              >
-                <option value="">Select Category</option>
-                {categoryOptions.map(option => (
-                  <option key={option.value} value={option.value}>{option.label}</option>
-                ))}
-              </select>
-              {!isCategoryValid && <div className="invalid-feedback">Please select a category.</div>}
-            </div>
-            {/* Other input fields for Description, Image, Price, StartTime, StartDate, EndDate */}
-            <div
-              data-mdb-input-init
-              className={`form-outline mb-4`}
-            >
-              <textarea
-                id="txtDescription"
-                className="form-control form-control-lg"
-                onChange={(e) => setDescription(e.target.value)}
-                value={description}
-              />
-              <label
-                className="form-label d-block text-center"
-                htmlFor="txtDescription"
-              >
-                Description
-              </label>
-            </div>
-
-            <div className="mb-4">
-              <label htmlFor="imageInput" className="form-label">Select Image</label>
-              <input
-                type="file"
-                className="form-control"
-                id="imageInput"
-                accept="image/*" // Accept only image files
-                onChange={handleImageChange}
-              />
-            </div>
-
-            <div
-              data-mdb-input-init
-              className={`form-outline mb-4`}
-            >
-              <input
-                type="number"
-                id="txtPrice"
-                className={`form-control form-control-lg`}
-                onChange={(e) => setPrice(e.target.value)}
-                value={price}
-              />
-              <label
-                className="form-label d-block text-center"
-                htmlFor="txtPrice"
-              >
-                Price
-              </label>
-            </div>
-
-            <div
-              data-mdb-input-init
-              className={`form-outline mb-4`}
-            >
-              <input
-                type="time"
-                id="txtStartTime"
-                className={`form-control form-control-lg`}
-                onChange={(e) => setStartTime(e.target.value)}
-                value={startTime}
-              />
-              <label
-                className="form-label d-block text-center"
-                htmlFor="txtStartTime"
-              >
-                Start Time
-              </label>
-            </div>
-
-            <div
-              data-mdb-input-init
-              className={`form-outline mb-4`}
-            >
-              <input
-                type="date"
-                id="txtStartDate"
-                className={`form-control form-control-lg`}
-                onChange={(e) => setStartDate(e.target.value)}
-                value={startDate}
-              />
-              <label
-                className="form-label d-block text-center"
-                htmlFor="txtStartDate"
-              >
-                Start Date
-              </label>
-            </div>
-
-            <div
-              data-mdb-input-init
-              className={`form-outline mb-4`}
-            >
-              <input
-                type="date"
-                id="txtEndDate"
-                className={`form-control form-control-lg`}
-                onChange={(e) => setEndDate(e.target.value)}
-                value={endDate}
-              />
-              <label
-                className="form-label d-block text-center"
-                htmlFor="txtEndDate"
-              >
-                End Date
-              </label>
-            </div>
-
-            {/* Add submit button to trigger handleSave function */}
-            <div className="d-flex justify-content-center pt-3">
-              <button
-                type="button"
-                data-mdb-button-init
-                data-mdb-ripple-init
-                className="btn btn-warning btn-lg ms-2"
-                onClick={() => handleSave()}
-              >
-                Submit form
-              </button>
-            </div>
-
-            {/* Add reset button to clear form */}
-            <div className="d-flex justify-content-center pt-3">
-              <button
-                type="button"
-                data-mdb-button-init
-                data-mdb-ripple-init
-                className="btn btn-light btn-lg"
-                onClick={() => clear()}
-              >
-                Reset all
-              </button>
-            </div>
-
-            {/* Optionally, add error feedback for invalid fields */}
-            {(!isNameValid || !isCategoryValid || !isPriceValid || !isStartTimeValid || !isStartDateValid || !isEndDateValid) &&
-              <div className="alert alert-danger mt-3">
-                Please fill in all fields correctly.
+                <input
+                  type="text"
+                  id="txtName"
+                  className="form-control form-control-lg"
+                  onChange={(e) => handleNameChange(e.target.value)}
+                  value={name}
+                />
+                <label
+                  className="form-label d-block text-center"
+                  htmlFor="txtName"
+                >
+                  Name{" "}
+                  {isNameValid
+                    ? <span className="span-red">*</span>
+                    : "(required - Please enter the class name)"}
+                </label>
               </div>
-            }
-          </div>
-        </div>
+              <div className="form-group mb-4">
+                <select
+                  className={`form-control form-control-lg ${isCategoryValid ? "" : "is-invalid"}`}
+                  id="categorySelect"
+                  value={category}
+                  onChange={(e) => handleCategoryChange(e.target.value)}
+                >
+                  <option value=""></option>
+                  {categoryOptions.map(option => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+                <label htmlFor="categorySelect">Category</label>
+                {!isCategoryValid && <div className="invalid-feedback">Please select a category.</div>}
+              </div>
+              {/* Other input fields for Description, Image, Price, StartTime, StartDate, EndDate */}
+              <div
+                data-mdb-input-init
+                className={`form-outline mb-4`}
+              >
+                <textarea
+                  id="txtDescription"
+                  className="form-control form-control-lg"
+                  onChange={(e) => setDescription(e.target.value)}
+                  value={description}
+                />
+                <label
+                  className="form-label d-block text-center"
+                  htmlFor="txtDescription"
+                >
+                  Description
+                </label>
+              </div>
 
-        <div className="container">
-          <h3 className="mb-4 text-uppercase text-center">Class Sessions</h3>
-          <div className="row">
-            {classSessions.map(classSession => (
-              <div key={classSession.id} className="col-md-4 mb-4">
-                <div className="card">
-                <img src={classSession.image} alt="Class Session" />
-                  <div className="card-body">
-                    <h5 className="card-title">{classSession.name}</h5>
-                    <p className="card-text">{classSession.description}</p>
-                    <p className="card-text">Category: {classSession.category}</p>
-                    <p className="card-text">Price: ${classSession.price}</p>
-                    <p className="card-text">Start Time: {classSession.startTime}</p>
-                    <p className="card-text">Start Date: {classSession.startDate}</p>
-                    <p className="card-text">End Date: {classSession.endDate}</p>
-                  </div>
+              <div className="mb-4">
+                <input
+                  type="file"
+                  className="form-control"
+                  id="imageInput"
+                  accept="image/*" // Accept only image files
+                  onChange={handleImageChange}
+                />
+                <label htmlFor="imageInput" className="form-label">Select Image</label>
+              </div>
+              <div
+                data-mdb-input-init
+                className={`form-outline mb-4`}
+              >
+                <input
+                  type="number"
+                  id="txtPrice"
+                  className={`form-control form-control-lg`}
+                  onChange={(e) => setPrice(e.target.value)}
+                  value={price}
+                />
+                <label
+                  className="form-label d-block text-center"
+                  htmlFor="txtPrice"
+                >
+                  Price
+                </label>
+              </div>
+
+              <div
+                data-mdb-input-init
+                className={`form-outline mb-4`}
+              >
+                <input
+                  type="time"
+                  id="txtStartTime"
+                  className={`form-control form-control-lg`}
+                  onChange={(e) => setStartTime(e.target.value)}
+                  value={startTime}
+                />
+                <label
+                  className="form-label d-block text-center"
+                  htmlFor="txtStartTime"
+                >
+                  Start Time
+                </label>
+              </div>
+
+              <div
+                data-mdb-input-init
+                className={`form-outline mb-4`}
+              >
+                <input
+                  type="date"
+                  id="txtStartDate"
+                  className={`form-control form-control-lg`}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  value={startDate}
+                />
+                <label
+                  className="form-label d-block text-center"
+                  htmlFor="txtStartDate"
+                >
+                  Start Date
+                </label>
+              </div>
+
+              <div
+                data-mdb-input-init
+                className={`form-outline mb-4`}
+              >
+                <input
+                  type="date"
+                  id="txtEndDate"
+                  className={`form-control form-control-lg`}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  value={endDate}
+                />
+                <label
+                  className="form-label d-block text-center"
+                  htmlFor="txtEndDate"
+                >
+                  End Date
+                </label>
+              </div>
+
+              {/* Add submit button to trigger handleSave function */}
+              <div className="d-flex justify-content-center pt-3">
+                <button
+                  type="button"
+                  data-mdb-button-init
+                  data-mdb-ripple-init
+                  className="btn btn-warning btn-lg ms-2"
+                  onClick={() => handleSave()}
+                >
+                  Submit form
+                </button>
+              </div>
+              {/* Optionally, add error feedback for invalid fields */}
+              {(!isNameValid || !isCategoryValid || !isPriceValid || !isStartTimeValid || !isStartDateValid || !isEndDateValid) &&
+                <div className="alert alert-danger mt-3">
+                  Please fill in all fields correctly.
                 </div>
+              }
               </div>
-            ))}
-          </div>
+            </fieldset>
+          </form>
+        </div>
+      </section>
+
+      {/* Display Class */}
+      <section>
+        <div class="testbox">
+          <form>
+            <div class="banner">
+              <h1>Classes</h1>
+            </div>
+            {/* j------------ */}
+            <div class="container container-custom">
+              {classSessions.map(classSession => (
+                <div key={classSession.id} class="card">
+                  <Link to={`/class/${classSession.sessionClassId}`} className="card-link">
+                    <img src={classSession.image} alt="Class Session" />
+                    <div class="card-body">
+                      <h5 class="card-title">{classSession.name}</h5>
+                      <p class="card-text">{classSession.description}</p>
+                      <p class="card-text">Category: {classSession.category}</p>
+                      <p class="card-text">Price: ${classSession.price}</p>
+                      <p class="card-text">Start Time: {classSession.startTime}</p>
+                      <p class="card-text">Start Date: {classSession.startDate}</p>
+                      <p class="card-text">End Date: {classSession.endDate}</p>
+                    </div>
+                    </Link>
+                </div>
+              ))}
+            </div>
+            {/* --------------- */}
+          </form>
         </div>
       </section>
     </Fragment>

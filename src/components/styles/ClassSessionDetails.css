@@ -1,0 +1,50 @@
+.class-session-card {
+  max-width: 1000px; /* Increase the max-width for a larger card */
+  margin: 50px auto 0;
+  padding: 40px;
+  background-color: #f8f9fa;
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.class-session-card:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.class-session-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.class-session-details {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.class-session-image img {
+  max-width: 300px;
+  height: auto;
+  margin-right: 20px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.class-session-info {
+  flex: 1;
+}
+
+.class-session-info h2 {
+  font-size: 36px; /* Increase font size for the title */
+  margin-bottom: 20px;
+}
+
+.class-session-info p {
+  font-size: 18px; /* Increase font size for the details */
+  margin-bottom: 10px;
+}
+
+.class-session-info strong {
+  font-weight: bold;
+}
