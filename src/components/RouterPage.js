@@ -64,7 +64,8 @@ export default function RouterPage() {
         <Route path="/childRegistration" element={withRoleAccess(ChildRegistration, ['Users'])} />
 
         {/* Admin-specific routes */}
-        <Route path="/adminDashboard" element={withRoleAccess(AdminDashboard, ['Admin'])} />
+        <Route path="/adminDashboard" element={<AdminDashboard />} />
+        {/* <Route path="/adminDashboard" element={withRoleAccess(AdminDashboard, ['Admin'])} /> */}
         <Route path="/teacherRegistration" element={withRoleAccess(TeacherRegistration, ['Admin'])} />
         <Route path="/addClassSession" element={withRoleAccess(AddClassSession, ['Admin'])} />
 
