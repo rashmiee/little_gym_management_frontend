@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AdminHeader from "../Dasboards/AdminHeader";
 import "../styles/regFormStyle.css";
+import EditClassSessionModal from "./EditClassSessionPopup";
 
 export default function AddClassSession() {
   const [name, setName] = useState('');
@@ -20,7 +21,19 @@ export default function AddClassSession() {
   const [isStartDateValid, setIsStartDateValid] = useState(true);
   const [isEndDateValid, setIsEndDateValid] = useState(true);
 
+  const [selectedClassSession, setSelectedClassSession] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [classSessions, setClassSessions] = useState([]);
+
+  const openEditModal = (classSession) => {
+    setSelectedClassSession(classSession);
+    setIsModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     // Fetch all class sessions when the component mounts
@@ -33,6 +46,38 @@ export default function AddClassSession() {
       setClassSessions(response.data);
     } catch (error) {
       console.error('Error fetching class sessions:', error);
+    }
+  };
+
+  const handleUpdate = (updatedClassSession) => {
+    axios
+      .put(`/api/ClassSession/${updatedClassSession.sessionClassId}`, updatedClassSession)
+      .then((result) => {
+        alert(result.data.statusMessage);
+        closeEditModal(); // Close the modal after successful update
+        fetchClassSessions();
+      })
+      .catch((error) => {
+        console.error("Error updating teacher:", error);
+        alert("Error updating teacher. Please try again.");
+      });
+  };
+
+  const confirmDelete = (classSession) => {
+    console.log(classSession);
+    if (window.confirm(`Are you sure you want to delete ${classSession.name}?`)) {
+      const url = `/api/ClassSession/${classSession.sessionClassId}`;
+      axios
+        .delete(url)
+        .then((result) => {
+          alert(result.data.statusMessage);
+          // Fetch updated list of teachers
+          fetchClassSessions();
+        })
+        .catch((error) => {
+          console.error("Error deleting class:", error);
+          alert("Error deleting class. Please try again.");
+        });
     }
   };
 
@@ -358,9 +403,9 @@ export default function AddClassSession() {
             <div class="container container-custom">
               {classSessions.map(classSession => (
                 <div key={classSession.id} class="card">
-                  <Link to={`/class/${classSession.sessionClassId}`} className="card-link">
                     <img src={classSession.image} alt="Class Session" />
                     <div class="card-body">
+                    <Link to={`/class/${classSession.sessionClassId}`} className="card-link">
                       <h5 class="card-title">{classSession.name}</h5>
                       <p class="card-text">{classSession.description}</p>
                       <p class="card-text">Category: {classSession.category}</p>
@@ -368,14 +413,31 @@ export default function AddClassSession() {
                       <p class="card-text">Start Time: {classSession.startTime}</p>
                       <p class="card-text">Start Date: {classSession.startDate}</p>
                       <p class="card-text">End Date: {classSession.endDate}</p>
+                      </Link>
+                      <p class="card-footer text-center">
+                        <button type="button" className="edit-btn-style" onClick={() => openEditModal(classSession)}>
+                          <i className="fa fa-edit"></i>
+                        </button>
+                        <button type="button" className="delete-btn-style" onClick={() => {
+                          confirmDelete(classSession);
+                        }}>
+                          <i className="fa fa-trash"></i>
+                        </button>
+                    </p>
                     </div>
-                    </Link>
                 </div>
               ))}
             </div>
             {/* --------------- */}
           </form>
         </div>
+        {isModalOpen && (
+          <EditClassSessionModal
+            classSession={selectedClassSession}
+            onClose={closeEditModal}
+            onUpdate={handleUpdate}
+          />
+        )}
       </section>
     </Fragment>
   );
