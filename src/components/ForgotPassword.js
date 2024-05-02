@@ -97,7 +97,7 @@ function ForgotPassword() {
                     {message && <p className="mt-3">{message}</p>}
 
                     <p className="mt-3" style={{ color: "#393f81" }}>
-                      <Link to="/login" style={{ color: "#393f81" }}>Back to Login</Link>
+                      <Link to="/" style={{ color: "#393f81" }}>Back to Login</Link>
                     </p>
                   </div>
                 </div>

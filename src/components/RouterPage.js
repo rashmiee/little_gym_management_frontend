@@ -15,7 +15,8 @@ import ChildRegistration from './User/ChildRegistration';
 // ClassSession
 import AddClassSession from './Admin/AddClassSession';
 import AddLessonToClassSession from './Teacher/AddLessonToClassSession';
-import ClassSessionDetails from './Admin/ClassSessionDetails';
+import ClassSessionDetails from './common/ClassSessionDetails';
+import AllClassSessions from './common/AllClassSessions';
 // Lesson
 import AddLesson from './Teacher/AddLesson';
 // Skill
@@ -38,6 +39,7 @@ export default function RouterPage() {
         <Route path="/registration" element={<Registration />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/class/:id" element={<ClassSessionDetails />} />
+        <Route path="/allClassSessions" element={<AllClassSessions />} />
         {/* Admin routes */}
         {userType === 'Admin' && (
           <>

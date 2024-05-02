@@ -51,6 +51,11 @@ export default function UserHeader() {
                   Child Registration
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to="/allClassSessions" className="nav-link">
+                  All Class Sessions
+                </Link>
+              </li>
             </ul>
           </div>
           <button className="et-button medium stylish-button" onClick={logout}>

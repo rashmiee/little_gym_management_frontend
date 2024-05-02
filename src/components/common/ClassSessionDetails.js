@@ -24,7 +24,7 @@ export default function ClassSessionDetails() {
 
   return (
     <Fragment>
-      <AdminHeader />
+      {/* <AdminHeader /> */}
       <div className="class-session-card">
         <div className="class-session-details">
           <div className="class-session-image">
