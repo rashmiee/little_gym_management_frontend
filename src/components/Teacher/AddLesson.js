@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import axios from 'axios';
 import TeacherHeader from "../Dasboards/TeacherHeader";
+import EditLessonModal from "./EditLessonPopup";
 
 export default function AddLesson() {
   const [lessons, setLessons] = useState([]);
@@ -8,6 +9,50 @@ export default function AddLesson() {
   const [description, setDescription] = useState('');
   const [isNameValid, setIsNameValid] = useState(true);
   const [isDescriptionValid, setIsDescriptionValid] = useState(true);
+
+  const [selectedLesson, setSelectedLesson] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openEditModal = (lesson) => {
+    setSelectedLesson(lesson);
+    setIsModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleUpdate = (updatedLesson) => {
+    axios
+      .put(`/api/Lesson/${updatedLesson.lesson_id}`, updatedLesson)
+      .then((result) => {
+        alert(result.data.statusMessage);
+        closeEditModal();
+        fetchLessons(); // Fetch updated list of Lessons
+      })
+      .catch((error) => {
+        alert("Error updating Lessons. Please try again.");
+      });
+  };
+
+  const confirmDelete = (lesson) => {
+    if (
+      window.confirm(
+        `Are you sure you want to delete ${lesson.name} ?`
+      )
+    ) {
+      const url = `/api/Lesson/${lesson.lesson_id}`;
+      axios
+        .delete(url)
+        .then((result) => {
+          alert(result.data.statusMessage);
+          fetchLessons();
+        })
+        .catch((error) => {
+          alert("Error deleting Lesson. This lesson is already added to the class.");
+        });
+    }
+  };
 
   useEffect(() => {
     fetchLessons();
@@ -68,12 +113,15 @@ export default function AddLesson() {
       <TeacherHeader />
       {/* Lesson Add Form */}
       <section>
-        <div className="card card-registration my-4">
-          <div className="card-body p-md-5 text-black">
-            <h3 className="mb-5 text-uppercase text-center">
-              Lesson Add Form
-            </h3>
-            <div
+      <div class="testbox">
+        <form>
+          <div className="banner">
+            <h1>Lesson Creation</h1>
+          </div>
+          <br />
+          <fieldset>
+          <div className="column-custom">
+          <div
               data-mdb-input-init
               className={`form-outline mb-4 ${
                 isNameValid ? "" : "has-invalid"
@@ -92,7 +140,7 @@ export default function AddLesson() {
               >
                 Name{" "}
                 {isNameValid
-                  ? "(required)"
+                  ? <span className="span-red">*</span>
                   : "(required - Please enter the lesson name)"}
               </label>
             </div>
@@ -114,7 +162,7 @@ export default function AddLesson() {
               >
                 Description{" "}
                 {isDescriptionValid
-                  ? "(required)"
+                  ? <span className="span-red">*</span>
                   : "(required - Please enter the lesson description)"}
               </label>
             </div>
@@ -123,34 +171,31 @@ export default function AddLesson() {
                 type="button"
                 data-mdb-button-init
                 data-mdb-ripple-init
-                className="btn btn-light btn-lg"
-                onClick={clear}
-              >
-                Reset all
-              </button>
-              <button
-                type="button"
-                data-mdb-button-init
-                data-mdb-ripple-init
-                className="btn btn-warning btn-lg ms-2"
+                className="btn btn-dark btn-lg btn-block"
                 onClick={handleSave}
               >
                 Submit form
               </button>
             </div>
           </div>
-        </div>
+          </fieldset>
+        </form>
+      </div>
       </section>
+
       {/* Lesson Table */}
       <section>
-        <div className="card card-registration my-4">
-          <div className="card-body p-md-5 text-black">
-            <h3 className="mb-5 text-uppercase text-center">Lessons</h3>
-            <table className="table">
+      <div class="testbox">
+          <form>
+            <div class="banner">
+              <h1>Lessons</h1>
+            </div>
+            <table className="table table-striped custome-table-style">
               <thead>
                 <tr>
                   <th scope="col">Lesson Name</th>
                   <th scope="col">Description</th>
+                  <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -158,12 +203,37 @@ export default function AddLesson() {
                   <tr key={index}>
                     <td>{lesson.name}</td>
                     <td>{lesson.description}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="edit-btn-style"
+                        onClick={() => openEditModal(lesson)}
+                      >
+                        <i className="fa fa-edit"></i>
+                      </button>
+                      <button
+                        type="button"
+                        className="delete-btn-style"
+                        onClick={() => {
+                          confirmDelete(lesson);
+                        }}
+                      >
+                        <i className="fa fa-trash"></i>
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          </div>
+          </form>
         </div>
+        {isModalOpen && (
+          <EditLessonModal
+            lesson={selectedLesson}
+            onClose={closeEditModal}
+            onUpdate={handleUpdate}
+          />
+        )}
       </section>
     </Fragment>
   );

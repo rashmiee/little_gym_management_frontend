@@ -48,7 +48,7 @@ export default function UserHeader() {
               </li>
               <li className="nav-item">
                 <Link to="/addLesson" className="nav-link">
-                  Child Registration
+                  Add Lesson
                 </Link>
               </li>
               <li className="nav-item">
