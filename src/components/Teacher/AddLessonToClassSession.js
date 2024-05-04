@@ -63,9 +63,12 @@ export default function AddLessonToClassSession() {
     <Fragment>
       <TeacherHeader />
       <section>
-        <div className="card card-registration my-4">
-          <div className="card-body p-md-5 text-black">
-            <h3 className="mb-5 text-uppercase text-center">Class Sessions</h3>
+        <div class="testbox">
+          <form>
+            <div className="banner">
+              <h1>Add Lesson to Classes</h1>
+            </div>
+            <div className="column-custom">
             {isLoaded ? (
               <table className="table">
                 <thead>
@@ -103,9 +106,11 @@ export default function AddLessonToClassSession() {
             ) : (
               <div>Loading...</div>
             )}
-          </div>
+            </div>
+          </form>
         </div>
       </section>
+
     </Fragment>
   );
 }
