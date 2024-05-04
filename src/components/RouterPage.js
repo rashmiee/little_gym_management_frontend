@@ -60,21 +60,20 @@ export default function RouterPage() {
 
         {/* User-specific routes */}
 
-        <Route path="/userDashboard" element={withRoleAccess(UserDashboard, ['Users'])} />
-        <Route path="/childRegistration" element={withRoleAccess(ChildRegistration, ['Users'])} />
+        <Route path="/userDashboard" element={<UserDashboard/>} />
+        <Route path="/childRegistration" element={<withRoleAccess/>} />
 
         {/* Admin-specific routes */}
-        <Route path="/adminDashboard" element={<AdminDashboard />} />
-        {/* <Route path="/adminDashboard" element={withRoleAccess(AdminDashboard, ['Admin'])} /> */}
-        <Route path="/teacherRegistration" element={withRoleAccess(TeacherRegistration, ['Admin'])} />
-        <Route path="/addClassSession" element={withRoleAccess(AddClassSession, ['Admin'])} />
+        <Route path="/adminDashboard" element={<AdminDashboard/>} />
+        <Route path="/teacherRegistration" element={<TeacherRegistration/>} />
+        <Route path="/addClassSession" element={<AddClassSession/>} />
 
         {/* Teacher-specific routes */}
-        <Route path="/teacherDashboard" element={withRoleAccess(TeacherDashboard, ['Teacher'])} />
-        <Route path="/addLessonToClassSession" element={withRoleAccess(AddLessonToClassSession, ['Teacher'])} />
-        <Route path="/addLesson" element={withRoleAccess(AddLesson, ['Teacher'])} />
-        <Route path="/addSkill" element={withRoleAccess(AddSkill, ['Teacher'])} />
-        <Route path="/skillProgress" element={withRoleAccess(SkillProgress, ['Teacher'])} />
+        <Route path="/teacherDashboard" element={<TeacherDashboard/>} />
+        <Route path="/addLessonToClassSession" element={<AddLessonToClassSession/>} />
+        <Route path="/addLesson" element={<AddLesson/>} />
+        <Route path="/addSkill" element={<AddSkill/>} />
+        <Route path="/skillProgress" element={<SkillProgress/>} />
 
         {/* Common routes */}
         <Route path="/class/:id" element={<ClassSessionDetails />} />
