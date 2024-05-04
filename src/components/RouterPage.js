@@ -61,7 +61,7 @@ export default function RouterPage() {
         {/* User-specific routes */}
 
         <Route path="/userDashboard" element={<UserDashboard/>} />
-        <Route path="/childRegistration" element={<withRoleAccess/>} />
+        <Route path="/childRegistration" element={<ChildRegistration/>} />
 
         {/* Admin-specific routes */}
         <Route path="/adminDashboard" element={<AdminDashboard/>} />
