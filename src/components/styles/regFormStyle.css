@@ -419,3 +419,21 @@ button:hover {
 .container-custom {
   margin-top: 30px;
 }
+.custom-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adding a box shadow for 3D effect */
+  transition: box-shadow 0.3s ease; /* Adding transition effect */
+}
+
+.custom-select:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Increasing shadow on hover for more depth */
+}
+
+.custom-select:focus {
+  outline: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 0 0 2px #007bff; /* Adding focus style */
+}
