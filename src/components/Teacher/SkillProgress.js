@@ -13,6 +13,8 @@ export default function SkillProgress() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [finishedSkills, setFinishedSkills] = useState([]);
   const [showModal, setShowModal] = useState(false); // State to control modal visibility
+  const [feedbackText, setFeedbackText] = useState(""); // State to store feedback text
+  const [selectedUserSkill, setSelectedUserSkill] = useState(null); // State to store the selected user skill for feedback
 
   useEffect(() => {
     fetchSkills();
@@ -100,29 +102,6 @@ export default function SkillProgress() {
       });
   };
 
-  const handleFeedbackChange = (User_ID, Skill_ID, newFeedback) => {
-    axios
-      .put(
-        `/api/SkillProgress/updateUserSkillFeedback?User_ID=${User_ID}&Skill_ID=${Skill_ID}&feedback=${newFeedback}`
-      )
-      .then((response) => {
-        alert(response.data.statusMessage);
-        // Update userSkills state with the new feedback
-        setUserSkills((prevUserSkills) => {
-          const updatedUserSkills = prevUserSkills.map((skill) => {
-            if (skill.User_ID === User_ID && skill.Skill_ID === Skill_ID) {
-              return { ...skill, feedback: newFeedback };
-            }
-            return skill;
-          });
-          return updatedUserSkills;
-        });
-      })
-      .catch((error) => {
-        console.error("Error updating skill feedback:", error);
-      });
-  };
-
   const handleNewSkillSubmit = () => {
     if (selectedUser_ID && newSkill_ID) {
       axios
@@ -142,12 +121,46 @@ export default function SkillProgress() {
     }
   };
 
-  const openModal = () => {
+  const openModal = (userSkill) => {
+    setSelectedUserSkill(userSkill);
     setShowModal(true);
   };
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const handleFeedbackSubmit = () => {
+    if (selectedUserSkill && feedbackText) {
+      console.log(selectedUserSkill)
+      axios
+        .put(
+          `/api/SkillProgress/updateUserSkillFeedback?User_ID=${selectedUserSkill.user_ID}&Skill_ID=${selectedUserSkill.skill_ID}&feedback=${feedbackText}`
+        )
+        .then((response) => {
+          alert(response.data.statusMessage);
+          // Update userSkills state with the new feedback
+          setUserSkills((prevUserSkills) => {
+            const updatedUserSkills = prevUserSkills.map((skill) => {
+              if (
+                skill.User_ID === selectedUserSkill.User_ID &&
+                skill.Skill_ID === selectedUserSkill.Skill_ID
+              ) {
+                return { ...skill, feedback: feedbackText };
+              }
+              return skill;
+            });
+            return updatedUserSkills;
+          });
+          setFeedbackText(""); // Clear feedback text
+          setShowModal(false); // Close modal
+        })
+        .catch((error) => {
+          console.error("Error updating skill feedback:", error);
+        });
+    } else {
+      alert("Please enter feedback.");
+    }
   };
 
   return (
@@ -186,7 +199,7 @@ export default function SkillProgress() {
                         className="form-control"
                         id="Skill_ID"
                         value={newSkill_ID}
-                        onChange={(e) => setNewSkill_ID(e.target.value)} // Change this line
+                        onChange={(e) => setNewSkill_ID(e.target.value)}
                       >
                         <option value="">Select Skill</option>
                         {skills.map((skill) => (
@@ -240,27 +253,23 @@ export default function SkillProgress() {
                       </div>
 
                       <Modal show={showModal} onClose={closeModal}>
-                        {selectedUser && (
+                        {selectedUserSkill && (
                           <div>
-                            <h2>Finished Skills for Child: {selectedUser}</h2>
-                            <table className="table table-striped custome-table-style">
-                              <thead>
-                                <tr>
-                                  <th scope="col">Skill</th>
-                                  <th scope="col">Status</th>
-                                  <th scope="col">Feedback</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {finishedSkills.map((skill) => (
-                                  <tr key={skill.Skill_ID}>
-                                    <td>{skill.skill_ID}</td>
-                                    <td>{skill.status}</td>
-                                    <td>{skill.feedback}</td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
+                            <h2>Feedback for Skill: {selectedUserSkill.skill_ID}</h2>
+                            <textarea
+                              rows="4"
+                              cols="50"
+                              value={feedbackText}
+                              onChange={(e) => setFeedbackText(e.target.value)}
+                            ></textarea>
+                            <br />
+                            <button
+                              type="button"
+                              className="btn btn-dark btn-lg"
+                              onClick={handleFeedbackSubmit}
+                            >
+                              Submit Feedback
+                            </button>
                           </div>
                         )}
                       </Modal>
@@ -303,17 +312,17 @@ export default function SkillProgress() {
                           </select>
                         </td>
                         <td>
-                          <input
-                            type="text"
-                            value={userSkill.feedback}
-                            onChange={(e) =>
-                              handleFeedbackChange(
-                                userSkill.user_ID,
-                                userSkill.skill_ID,
-                                e.target.value
-                              )
-                            }
-                          />
+                          {userSkill.feedback ? (
+                            <div>{userSkill.feedback}</div>
+                          ) : (
+                            <button
+                              type="button"
+                              className="btn btn-link"
+                              onClick={() => openModal(userSkill)}
+                            >
+                              Add Feedback
+                            </button>
+                          )}
                         </td>
                       </tr>
                     ))}
