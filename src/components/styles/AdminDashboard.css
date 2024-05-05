@@ -1,0 +1,18 @@
+.chart-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Small space between charts */
+}
+
+.chart-card {
+  flex-basis: calc(33.333% - 10px); /* Three charts per row */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow to create 3D effect */
+  border-radius: 8px; /* Rounded corners */
+  overflow: hidden; /* Hide overflow content */
+  background-color: white; /* White background */
+  margin-bottom: 10px; /* Space between rows */
+}
+
+.chart-card:nth-child(n + 4) {
+  flex-basis: calc(50% - 10px); /* Two charts per row starting from the fourth chart */
+}
