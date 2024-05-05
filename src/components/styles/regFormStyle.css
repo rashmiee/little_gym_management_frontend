@@ -437,3 +437,60 @@ button:hover {
   outline: none;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 0 0 2px #007bff; /* Adding focus style */
 }
+/* Custom styles for select element */
+.select-3d {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover effect */
+.select-3d:hover {
+  border-color: #999;
+}
+
+/* Focus effect */
+.select-3d:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Disabled state */
+.select-3d:disabled {
+  opacity: 0.5;
+}
+
+/* Custom styles for the feedback button container */
+.feedback-button-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+/* Custom styles for the "Add Feedback" button */
+.add-feedback-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-feedback-button:hover {
+  background-color: #0056b3;
+}
+
+.add-feedback-button:focus {
+  outline: none;
+}
+
