@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import axios from 'axios';
 import TeacherHeader from "../Dasboards/TeacherHeader";
+import Modal from "./UserSkillProgressModal"; // Import your modal component here
 
 export default function SkillProgress() {
   const [skills, setSkills] = useState([]);
@@ -11,6 +12,7 @@ export default function SkillProgress() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [finishedSkills, setFinishedSkills] = useState([]);
+  const [showModal, setShowModal] = useState(false); // State to control modal visibility
 
   useEffect(() => {
     fetchSkills();
@@ -129,6 +131,14 @@ export default function SkillProgress() {
     }
   };
 
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <Fragment>
       <TeacherHeader />
@@ -183,29 +193,33 @@ export default function SkillProgress() {
                     ))}
                   </select>
 
-                  {selectedUser && (
-                    <div>
-                      <h2>Finished Skills for User: {selectedUser}</h2>
-                      <table className="table table-striped custome-table-style">
-                        <thead>
-                          <tr>
-                            <th scope="col">Skill</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Feedback</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {finishedSkills.map(skill => (
-                            <tr key={skill.Skill_ID}>
-                              <td>{skill.skill_ID}</td>
-                              <td>{skill.status}</td>
-                              <td>{skill.feedback}</td>
+                  <button type="button" className="btn btn-dark btn-lg btn-block" onClick={openModal}>View Skills</button>
+
+                  <Modal show={showModal} onClose={closeModal}>
+                    {selectedUser && (
+                      <div>
+                        <h2>Finished Skills for User: {selectedUser}</h2>
+                        <table className="table table-striped custome-table-style">
+                          <thead>
+                            <tr>
+                              <th scope="col">Skill</th>
+                              <th scope="col">Status</th>
+                              <th scope="col">Feedback</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
+                          </thead>
+                          <tbody>
+                            {finishedSkills.map(skill => (
+                              <tr key={skill.Skill_ID}>
+                                <td>{skill.skill_ID}</td>
+                                <td>{skill.status}</td>
+                                <td>{skill.feedback}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </Modal>
                 </div>
               </section>
               {/* skill Set*/}
