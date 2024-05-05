@@ -107,7 +107,12 @@ export default function SkillProgress() {
   };
 
   const handleNewSkillSubmit = () => {
-    if (selectedUser_ID && newSkill_ID) {
+    const isSkillAlreadyAdded = userSkills.some(
+      (skill) =>
+        skill.user_ID === parseInt(selectedUser_ID) && skill.skill_ID === parseInt(newSkill_ID)
+    );
+
+    if (selectedUser_ID && newSkill_ID && !isSkillAlreadyAdded) {
       axios
         .post(
           `/api/SkillProgress/addSkillProgress?User_ID=${selectedUser_ID}&Skill_ID=${newSkill_ID}`
@@ -116,14 +121,19 @@ export default function SkillProgress() {
           alert(response.data.statusMessage);
           fetchUserSkills();
           setNewSkill_ID("");
+          setSelectedUser_ID("");
         })
         .catch((error) => {
           console.error("Error adding new skill:", error);
         });
+    } else if (isSkillAlreadyAdded) {
+      alert("This skill is already added for the selected user.");
     } else {
       alert("Please select a user and a skill to add.");
     }
   };
+
+
 
   const openAddSkillModal = () => {
     setShowAddSkillModal(true);
