@@ -106,8 +106,6 @@ export default function SkillProgress() {
       });
   };
 
-
-
   const handleNewSkillSubmit = () => {
     if (selectedUser_ID && newSkill_ID) {
       axios
@@ -164,9 +162,6 @@ export default function SkillProgress() {
       alert("Please enter feedback.");
     }
   };
-
-
-
 
   return (
     <Fragment>
@@ -337,6 +332,7 @@ export default function SkillProgress() {
                               )
                             }
                             className="select-3d"
+                            disabled={userSkill.status === "Completed"} // Disable dropdown if status is "Completed"
                           >
                             <option value="Not Started">Not Started</option>
                             <option value="In Progress">In Progress</option>
