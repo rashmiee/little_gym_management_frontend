@@ -15,12 +15,13 @@ export default function SkillProgress() {
   const [showModal, setShowModal] = useState(false); // State to control modal visibility
   const [feedbackText, setFeedbackText] = useState(""); // State to store feedback text
   const [selectedUserSkill, setSelectedUserSkill] = useState(null); // State to store the selected user skill for feedback
+  const [forceUpdate, setForceUpdate] = useState(false); // Dummy state variable for forcing a re-render
 
   useEffect(() => {
     fetchSkills();
     fetchUserSkills();
     fetchUsers();
-  }, []);
+  }, [forceUpdate]);
 
   const fetchUsers = () => {
     axios
@@ -96,11 +97,15 @@ export default function SkillProgress() {
           });
           return updatedUserSkills;
         });
+        // Toggle the dummy state variable to force a re-render
+        setForceUpdate((prev) => !prev);
       })
       .catch((error) => {
         console.error("Error updating skill status:", error);
       });
   };
+
+
 
   const handleNewSkillSubmit = () => {
     if (selectedUser_ID && newSkill_ID) {
