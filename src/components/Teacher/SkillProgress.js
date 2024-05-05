@@ -139,114 +139,118 @@ export default function SkillProgress() {
               <h1>User Skills Progress</h1>
             </div>
             <div className="column-custom">
-              {isLoading ? (
-                <div>Loading...</div>
-              ) : (
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>User ID</th>
-                      <th>Skill ID</th>
-                      <th>Status</th>
-                      <th>Feedback</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {userSkills.map((userSkill, index) => (
-                      <tr key={index}>
-                        <td>{userSkill.user_ID}</td>
-                        <td>{userSkill.skill_ID}</td>
-                        <td>
-                          <select
-                            value={userSkill.status}
-                            onChange={(e) => handleStatusChange(userSkill.user_ID, userSkill.skill_ID, e.target.value)}
-                          >
-                            <option value="Not Started">Not Started</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="Completed">Completed</option>
-                          </select>
-                        </td>
-                        <td>
-                          <input
-                            type="text"
-                            value={userSkill.feedback}
-                            onChange={(e) => handleFeedbackChange(userSkill.user_ID, userSkill.skill_ID, e.target.value)}
-                          />
-                        </td>
-                      </tr>
+              {/* Skill create */}
+              <section>
+                <div className="form-group">
+                  <select
+                    className="form-control"
+                    id="User_ID"
+                    value={selectedUser_ID}
+                    onChange={(e) => setSelectedUser_ID(e.target.value)}
+                  >
+                  <option value="">Select User</option>
+                    {users.map(user => (
+                      <option key={user.id} value={user.id}>{user.firstName}</option>
                     ))}
-                  </tbody>
-                </table>
-              )}
-              <div className="form-group">
-                <label htmlFor="User_ID">Select User:</label>
-                <select
-                  className="form-control"
-                  id="User_ID"
-                  value={selectedUser_ID}
-                  onChange={(e) => setSelectedUser_ID(e.target.value)}
-                >
-                 <option value="">Select User</option>
-                  {users.map(user => (
-                    <option key={user.id} value={user.id}>{user.firstName}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="form-group">
-                <label htmlFor="Skill_ID">Select New Skill:</label>
-                <select
-                  className="form-control"
-                  id="Skill_ID"
-                  value={newSkill_ID}
-                  onChange={(e) => setNewSkill_ID(e.target.value)} // Change this line
-                >
-                  <option value="">Select Skill</option>
-                  {skills.map(skill => (
-                    <option key={skill.skill_ID} value={skill.skill_ID}>{skill.skill_ID}</option>
-                  ))}
-                </select>
-              </div>
-              <button type="button" className="btn btn-primary" onClick={handleNewSkillSubmit}>Add New Skill</button>
-            </div>
-          </form>
-        </div>
-      </section>
-      <section>
-        <div>
-        <h1>Finished Skills</h1>
-        <label htmlFor="userSelect">Select User:</label>
-        <select id="userSelect" value={selectedUser} onChange={handleUserChange}>
-          <option value="">Select User</option>
-          {users.map(user => (
-            <option key={user.id} value={user.id}>{user.id}</option>
-          ))}
-        </select>
+                    <label htmlFor="User_ID">User</label>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <select
+                    className="form-control"
+                    id="Skill_ID"
+                    value={newSkill_ID}
+                    onChange={(e) => setNewSkill_ID(e.target.value)} // Change this line
+                  >
+                    <option value="">Select Skill</option>
+                    {skills.map(skill => (
+                      <option key={skill.skill_ID} value={skill.skill_ID}>{skill.skill_ID}</option>
+                    ))}
+                    <label htmlFor="Skill_ID">New Skill</label>
+                  </select>
+                </div>
+                <button type="button" className="btn btn-dark btn-lg btn-block" onClick={handleNewSkillSubmit}>Add New Skill</button>
+              </section>
+              {/* Individual users */}
+              <section>
+                <div>
+                  <h1>Finished Skills</h1>
+                  <label htmlFor="userSelect">Select User:</label>
+                  <select id="userSelect" value={selectedUser} onChange={handleUserChange}>
+                    <option value="">Select User</option>
+                    {users.map(user => (
+                      <option key={user.id} value={user.id}>{user.id}</option>
+                    ))}
+                  </select>
 
-        {selectedUser && (
-          <div>
-            <h2>Finished Skills for User: {selectedUser}</h2>
-            <table className="table table-striped custome-table-style">
-              <thead>
-                <tr>
-                  <th scope="col">Skill</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Feedback</th>
-                </tr>
-              </thead>
-              <tbody>
-                {finishedSkills.map(skill => (
-                  <tr key={skill.Skill_ID}>
-                    <td>{skill.skill_ID}</td>
-                    <td>{skill.status}</td>
-                    <td>{skill.feedback}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                  {selectedUser && (
+                    <div>
+                      <h2>Finished Skills for User: {selectedUser}</h2>
+                      <table className="table table-striped custome-table-style">
+                        <thead>
+                          <tr>
+                            <th scope="col">Skill</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Feedback</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {finishedSkills.map(skill => (
+                            <tr key={skill.Skill_ID}>
+                              <td>{skill.skill_ID}</td>
+                              <td>{skill.status}</td>
+                              <td>{skill.feedback}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              </section>
+              {/* skill Set*/}
+                {isLoading ? (
+                  <div>Loading...</div>
+                ) : (
+                  <table className="table table-striped custome-table-style">
+                    <thead>
+                      <tr>
+                        <th>User ID</th>
+                        <th>Skill ID</th>
+                        <th>Status</th>
+                        <th>Feedback</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {userSkills.map((userSkill, index) => (
+                        <tr key={index}>
+                          <td>{userSkill.user_ID}</td>
+                          <td>{userSkill.skill_ID}</td>
+                          <td>
+                            <select
+                              value={userSkill.status}
+                              onChange={(e) => handleStatusChange(userSkill.user_ID, userSkill.skill_ID, e.target.value)}
+                            >
+                              <option value="Not Started">Not Started</option>
+                              <option value="In Progress">In Progress</option>
+                              <option value="Completed">Completed</option>
+                            </select>
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              value={userSkill.feedback}
+                              onChange={(e) => handleFeedbackChange(userSkill.user_ID, userSkill.skill_ID, e.target.value)}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </form>
           </div>
-        )}
-      </div>
-    );
       </section>
     </Fragment>
   );
