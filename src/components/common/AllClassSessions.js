@@ -12,6 +12,8 @@ export default function AllClassSessions() {
   const [children, setChildren] = useState([]);
   const userEmail = localStorage.getItem("userEmail");
 
+  const [selectedChildId, setSelectedChildId] = useState(null);
+
   useEffect(() => {
     // Fetch all class sessions when the component mounts
     fetchClassSessions();
@@ -51,19 +53,35 @@ export default function AllClassSessions() {
   const openModal = (event, classSession) => {
     event.preventDefault(); // Prevent default form submission behavior
     setSelectedClassSession(classSession);
+    console.log(classSession);
     setShowModal(true);
   };
 
   const closeModal = () => {
     setSelectedClassSession(null);
     setShowModal(false);
+    setSelectedChildId(null);
   };
 
   const handleRegistration = (event) => {
     event.preventDefault(); // Prevent default form submission behavior
-    // Perform registration logic here
-    // For now, let's just close the modal
-    closeModal();
+
+    const payload = {
+      user_id: selectedChildId,
+      class_session_id: selectedClassSession.sessionClassId,
+      payment: false, // You can adjust this value as needed
+    };
+
+    axios.post('/api/ClassRegistration/addClassRegistration', payload)
+      .then(response => {
+        // Registration successful, show alert and close modal
+        alert('Registration successful');
+        closeModal();
+      })
+      .catch(error => {
+        console.error('Error registering:', error);
+        // Handle error if registration fails
+      });
   };
 
   return (
@@ -111,7 +129,7 @@ export default function AllClassSessions() {
             </span>
             <h2>{selectedClassSession.name}</h2>
             {/* Dropdown for selecting children */}
-            <select className="dropdown-3d">
+            <select className="dropdown-3d" onChange={(e) => setSelectedChildId(e.target.value)}>
               <option value="" disabled selected>Select the Child</option>
               {children.map(child => (
                 <option key={child.id} value={child.id}>{`${child.firstName} ${child.lastName}`}</option>
