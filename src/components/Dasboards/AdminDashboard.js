@@ -178,6 +178,7 @@ export default function AdminDashboard() {
       <div className="chart-container" style={{ padding: '20px' }}>
         <div className="chart-card">
           <h2>User Type Distribution</h2>
+          <hr></hr>
           <Bar
             data={{
               labels: Object.keys(userTypeCounts),
@@ -200,6 +201,7 @@ export default function AdminDashboard() {
         </div>
         <div className="chart-card">
           <h2>Class Category Distribution</h2>
+          <hr></hr>
           <Pie
             data={{
               labels: Object.keys(categoryCounts),
@@ -224,18 +226,21 @@ export default function AdminDashboard() {
         </div>
         <div className="chart-card">
           <h2>Finished Classes</h2>
+          <hr></hr>
           <div className="classes-table-container">
             {renderClassesTable(getFinishedClasses())}
           </div>
         </div>
         <div className="chart-card">
           <h2>Ongoing Classes</h2>
+          <hr></hr>
           <div className="classes-table-container">
             {renderClassesTable(getOngoingClasses())}
           </div>
         </div>
         <div className="chart-card">
           <h2>Skill Progress</h2>
+          <hr></hr>
           <Line data={skillProgressChartData} />
         </div>
       </div>

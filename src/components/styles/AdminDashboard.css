@@ -3,9 +3,11 @@
   flex-wrap: wrap;
   gap: 20px; /* Space between charts */
   padding: 20px;
+  justify-content: center;
 }
 
 .chart-card {
+  text-align: center;
   padding: 20px;
   flex-grow: 1; /* Allow cards to grow as needed */
   flex-shrink: 1; /* Allow cards to shrink if necessary */

@@ -83,7 +83,6 @@ export default function TeacherDashboard() {
   };
 
   const getClassRegistrationCount = (classSessionId) => {
-    debugger
     return classRegistrations.filter(registration => registration.class_session_id === classSessionId).length;
   };
 
@@ -225,29 +224,8 @@ export default function TeacherDashboard() {
     return (
       <div className="chart-container" style={{ padding: '20px' }}>
         <div className="chart-card">
-          <h2>User Type Distribution</h2>
-          <Bar
-            data={{
-              labels: Object.keys(userTypeCounts),
-              datasets: [{
-                label: 'User Count',
-                data: Object.values(userTypeCounts),
-                backgroundColor: 'rgba(255, 99, 132, 0.4)', // Lighter bar color with transparency
-                borderColor: 'rgba(255, 99, 132, 0.6)', // Lighter border color with transparency
-                borderWidth: 1
-              }]
-            }}
-            options={{
-              plugins: {
-                legend: {
-                  display: false // Hide legend
-                }
-              }
-            }}
-          />
-        </div>
-        <div className="chart-card">
           <h2>Class Category Distribution</h2>
+          <hr></hr>
           <Pie
             data={{
               labels: Object.keys(categoryCounts),
@@ -272,22 +250,31 @@ export default function TeacherDashboard() {
         </div>
         <div className="chart-card">
           <h2>Finished Classes</h2>
+          <hr></hr>
           <div className="classes-table-container">
             {renderClassesTable(getFinishedClasses())}
           </div>
         </div>
         <div className="chart-card">
+          <h2>Class Registrations</h2>
+          <hr></hr>
+          <Doughnut data={classRegistrationChartData} />
+        </div>
+        <div className="chart-card">
           <h2>Ongoing Classes</h2>
+          <hr></hr>
           <div className="classes-table-container">
             {renderClassesTable(getOngoingClasses())}
           </div>
         </div>
         <div className="chart-card">
           <h2>Skill Progress</h2>
+          <hr></hr>
           <Line data={skillProgressChartData} />
         </div>
         <div className="chart-card">
           <h2>Skill Count</h2>
+          <hr></hr>
           <div className="card-container">
             <div className="count-card">
               <p>{skillCount}</p>
@@ -296,15 +283,12 @@ export default function TeacherDashboard() {
         </div>
         <div className="chart-card">
           <h2>Lesson Count</h2>
+          <hr></hr>
           <div className="card-container">
             <div className="count-card">
               <p>{lessonCount}</p>
             </div>
           </div>
-        </div>
-        <div className="chart-card">
-          <h2>Class Registrations</h2>
-          <Doughnut data={classRegistrationChartData} />
         </div>
       </div>
     );

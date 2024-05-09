@@ -113,7 +113,6 @@ export default function UserDashboard()
       },
     };
     // Render the chart
-    debugger
     return <Bar data={chartData} options={chartOptions} />;
   };
 
@@ -180,6 +179,7 @@ export default function UserDashboard()
       <div className="chart-container" style={{ padding: '20px' }}>
         <div className="chart-card">
           <h2>Class Category Distribution</h2>
+          <hr></hr>
           <Pie
             data={{
               labels: Object.keys(categoryCounts),
@@ -204,18 +204,21 @@ export default function UserDashboard()
         </div>
         <div className="chart-card">
           <h2>Ongoing Classes</h2>
+          <hr></hr>
           <div className="classes-table-container">
             {renderClassesTable(getOngoingClasses())}
           </div>
         </div>
         <div className="chart-card">
           <h2>New Classes</h2>
+          <hr></hr>
           <div className="classes-table-container">
             {renderClassesTable(getNewClasses())}
           </div>
         </div>
         <div className="chart-card">
           <h2>Child Count</h2>
+          <hr></hr>
           <div className="card-container">
             <div className="count-card">
               <p>{childCount}</p>
