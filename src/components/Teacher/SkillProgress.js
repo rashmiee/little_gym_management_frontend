@@ -295,7 +295,7 @@ export default function SkillProgress() {
               <Modal show={showFeedbackModal} onClose={closeFeedbackModal}>
                 {selectedUserSkill && (
                   <div>
-                    <h2>Feedback for Skill: {selectedUserSkill.skill_ID}</h2>
+                    <h2>Feedback for Skill</h2>
                     <textarea
                       rows="4"
                       cols="50"
@@ -327,10 +327,16 @@ export default function SkillProgress() {
                     </tr>
                   </thead>
                   <tbody>
-                    {userSkills.map((userSkill, index) => (
+                  {userSkills.map((userSkill, index) => {
+                    // Find the corresponding user object
+                    const user = users.find(user => user.id === userSkill.user_ID);
+                    // Find the corresponding skill object
+                    const skill = skills.find(skill => skill.skill_ID === userSkill.skill_ID);
+
+                    return (
                       <tr key={index}>
-                        <td>{userSkill.user_ID}</td>
-                        <td>{userSkill.name}</td>
+                        <td>{user ? `${user.firstName} ${user.lastName}` : 'Unknown User'}</td>
+                        <td>{skill ? skill.name : 'Unknown Skill'}</td>
                         <td>
                           <select
                             value={userSkill.status}
@@ -365,7 +371,8 @@ export default function SkillProgress() {
                           </div>
                         </td>
                       </tr>
-                    ))}
+                    );
+                  })}
                   </tbody>
                 </table>
               )}
