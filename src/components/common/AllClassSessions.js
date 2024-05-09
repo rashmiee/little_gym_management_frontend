@@ -14,6 +14,8 @@ export default function AllClassSessions() {
 
   const [selectedChildId, setSelectedChildId] = useState(null);
 
+  const [registeredChildren, setRegisteredChildren] = useState([]);
+
   useEffect(() => {
     // Fetch all class sessions when the component mounts
     fetchClassSessions();
@@ -53,8 +55,8 @@ export default function AllClassSessions() {
   const openModal = (event, classSession) => {
     event.preventDefault(); // Prevent default form submission behavior
     setSelectedClassSession(classSession);
-    console.log(classSession);
     setShowModal(true);
+    fetchRegisteredChildren(classSession.sessionClassId);
   };
 
   const closeModal = () => {
@@ -81,6 +83,19 @@ export default function AllClassSessions() {
       .catch(error => {
         console.error('Error registering:', error);
         // Handle error if registration fails
+      });
+  };
+
+  const fetchRegisteredChildren = (classSessionId) => {
+    axios
+      .get(`/api/ClassRegistration/getClassRegistrationsByClassSession/${classSessionId}`)
+      .then((response) => {
+        const registeredChildIds = response.data.map(registration => registration.user_id);
+        const unregisteredChildren = children.filter(child => !registeredChildIds.includes(child.id));
+        setRegisteredChildren(unregisteredChildren);
+      })
+      .catch((error) => {
+        console.error("Error fetching registered children:", error);
       });
   };
 
@@ -131,7 +146,7 @@ export default function AllClassSessions() {
             {/* Dropdown for selecting children */}
             <select className="dropdown-3d" onChange={(e) => setSelectedChildId(e.target.value)}>
               <option value="" disabled selected>Select the Child</option>
-              {children.map(child => (
+              {registeredChildren.map(child => (
                 <option key={child.id} value={child.id}>{`${child.firstName} ${child.lastName}`}</option>
               ))}
             </select>
