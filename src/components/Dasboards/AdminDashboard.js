@@ -199,7 +199,7 @@ export default function AdminDashboard() {
           />
         </div>
         <div className="chart-card">
-          <h2>Category Distribution</h2>
+          <h2>Class Category Distribution</h2>
           <Pie
             data={{
               labels: Object.keys(categoryCounts),
