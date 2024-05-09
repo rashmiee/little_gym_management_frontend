@@ -16,6 +16,8 @@ export default function AllClassSessions() {
 
   const [registeredChildren, setRegisteredChildren] = useState([]);
 
+  const [unregisteredChildren, setUnregisteredChildren] = useState([]);
+
   useEffect(() => {
     // Fetch all class sessions when the component mounts
     fetchClassSessions();
@@ -26,6 +28,12 @@ export default function AllClassSessions() {
       fetchChildren(userEmail);
     }
   }, [userEmail]);
+
+  useEffect(() => {
+    if (selectedClassSession) {
+      fetchUnregisteredChildren(selectedClassSession.sessionClassId);
+    }
+  }, [selectedClassSession]);
 
   const fetchChildren = (userEmail) => {
     axios
@@ -125,9 +133,11 @@ export default function AllClassSessions() {
   // Function to fetch unregistered children for the dropdown
   const fetchUnregisteredChildren = (classSessionId) => {
     axios
-      .get(`/api/Users/childrenNotRegistered?classSessionId=${classSessionId}`)
+      .get(`/api/ClassRegistration/getClassRegistrationsByClassSession/${classSessionId}`)
       .then((response) => {
-        setChildren(response.data);
+        const registeredChildIds = response.data.map(registration => registration.user_id);
+        const unregisteredChildren = children.filter(child => !registeredChildIds.includes(child.id));
+        setUnregisteredChildren(unregisteredChildren); // Update the dropdown with unregistered children
       })
       .catch((error) => {
         console.error("Error fetching unregistered children for dropdown:", error);
