@@ -56,7 +56,8 @@ export default function AllClassSessions() {
     event.preventDefault(); // Prevent default form submission behavior
     setSelectedClassSession(classSession);
     setShowModal(true);
-    fetchRegisteredChildren(classSession.sessionClassId);
+    fetchRegisteredChildren(classSession.sessionClassId); // Fetch registered children for the list
+    fetchUnregisteredChildren(classSession.sessionClassId); // Fetch unregistered children for the dropdown
   };
 
   const closeModal = () => {
@@ -90,12 +91,46 @@ export default function AllClassSessions() {
     axios
       .get(`/api/ClassRegistration/getClassRegistrationsByClassSession/${classSessionId}`)
       .then((response) => {
-        const registeredChildIds = response.data.map(registration => registration.user_id);
-        const unregisteredChildren = children.filter(child => !registeredChildIds.includes(child.id));
-        setRegisteredChildren(unregisteredChildren);
+        const registrations = response.data;
+
+        // Map through registrations to find corresponding child information
+        const registrationsWithChildInfo = registrations.map(registration => {
+          // Find child associated with registration
+          const child = children.find(child => child.id === registration.user_id);
+          return { ...registration, child }; // Merge registration with child information
+        });
+
+        setRegisteredChildren(registrationsWithChildInfo);
       })
       .catch((error) => {
         console.error("Error fetching registered children:", error);
+      });
+  };
+
+
+  const handleDeleteRegistration = (registrationId) => {
+    axios
+      .delete(`/api/ClassRegistration/deleteClassRegistration/${registrationId}`)
+      .then((response) => {
+        alert('Registration deleted successfully');
+        fetchRegisteredChildren(selectedClassSession.sessionClassId); // Fetch registered children again after deletion
+      })
+      .catch((error) => {
+        console.error("Error deleting registration:", error);
+      });
+  };
+
+  // Function to fetch unregistered children for the dropdown
+  const fetchUnregisteredChildren = (classSessionId) => {
+    axios
+      .get(`/api/ClassRegistration/getClassRegistrationsByClassSession/${classSessionId}`)
+      .then((response) => {
+        const registeredChildIds = response.data.map(registration => registration.user_id);
+        const unregisteredChildren = children.filter(child => !registeredChildIds.includes(child.id));
+        setChildren(unregisteredChildren); // Update the dropdown with unregistered children
+      })
+      .catch((error) => {
+        console.error("Error fetching unregistered children for dropdown:", error);
       });
   };
 
@@ -146,10 +181,42 @@ export default function AllClassSessions() {
             {/* Dropdown for selecting children */}
             <select className="dropdown-3d" onChange={(e) => setSelectedChildId(e.target.value)}>
               <option value="" disabled selected>Select the Child</option>
-              {registeredChildren.map(child => (
+              {children.map(child => (
                 <option key={child.id} value={child.id}>{`${child.firstName} ${child.lastName}`}</option>
               ))}
             </select>
+            {/* Registered children list with delete button */}
+            <div className="registered-children-container">
+              <h3 className="registered-children-title">Registered Children</h3>
+              {registeredChildren.length > 0 ? (
+                <div className="registered-children-table">
+                  <table className="registered-children-table">
+                    <thead>
+                      <tr>
+                        <th className="registered-children-table-header">First Name</th>
+                        <th className="registered-children-table-header">Last Name</th>
+                        <th className="registered-children-table-header">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {registeredChildren.map(registration => (
+                        <tr key={registration.id} className="registered-children-table-row">
+                          <td className="registered-children-table-cell">{registration.child?.firstName}</td>
+                          <td className="registered-children-table-cell">{registration.child?.lastName}</td>
+                          <td className="registered-children-table-cell">
+                            <button className="registered-children-delete-button" onClick={() => handleDeleteRegistration(registration.id)}>Delete</button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p className="no-registered-children-message">No registered children</p>
+              )}
+            </div>
+
+
             {/* Add registration form or content here */}
             <div>
               <button className="btn btn-dark btn-lg btn-block registration-modal-button" type="button" onClick={handleRegistration}>Register</button>
