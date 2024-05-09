@@ -46,6 +46,7 @@ export default function AllClassSessions() {
       console.error('Error fetching class sessions:', error);
     }
   };
+
   const categoryOptions = [
     { value: 'parent-child', label: 'Parent-Child' },
     { value: 'pre-k', label: 'Pre-K' },
@@ -61,7 +62,6 @@ export default function AllClassSessions() {
   };
 
   const closeModal = () => {
-    setSelectedClassSession(null);
     setShowModal(false);
     setSelectedChildId(null);
   };
@@ -77,9 +77,10 @@ export default function AllClassSessions() {
 
     axios.post('/api/ClassRegistration/addClassRegistration', payload)
       .then(response => {
-        // Registration successful, show alert and close modal
+        // Registration successful, show alert and update registered children list
         alert('Registration successful');
-        closeModal();
+        fetchRegisteredChildren(selectedClassSession.sessionClassId); // Fetch registered children for the list
+        fetchUnregisteredChildren(selectedClassSession.sessionClassId); // Fetch unregistered children for the dropdown
       })
       .catch(error => {
         console.error('Error registering:', error);
@@ -114,6 +115,7 @@ export default function AllClassSessions() {
       .then((response) => {
         alert('Registration deleted successfully');
         fetchRegisteredChildren(selectedClassSession.sessionClassId); // Fetch registered children again after deletion
+        fetchUnregisteredChildren(selectedClassSession.sessionClassId); // Update unregistered children in dropdown
       })
       .catch((error) => {
         console.error("Error deleting registration:", error);
@@ -123,11 +125,9 @@ export default function AllClassSessions() {
   // Function to fetch unregistered children for the dropdown
   const fetchUnregisteredChildren = (classSessionId) => {
     axios
-      .get(`/api/ClassRegistration/getClassRegistrationsByClassSession/${classSessionId}`)
+      .get(`/api/Users/childrenNotRegistered?classSessionId=${classSessionId}`)
       .then((response) => {
-        const registeredChildIds = response.data.map(registration => registration.user_id);
-        const unregisteredChildren = children.filter(child => !registeredChildIds.includes(child.id));
-        setChildren(unregisteredChildren); // Update the dropdown with unregistered children
+        setChildren(response.data);
       })
       .catch((error) => {
         console.error("Error fetching unregistered children for dropdown:", error);
@@ -161,7 +161,7 @@ export default function AllClassSessions() {
                       </div>
                     </Link>
                     <div className="card-footer text-center">
-                    <button className="btn btn-dark btn-lg btn-block" type="button" onClick={(event) => openModal(event, classSession)}>Register</button>
+                    <button className="btn btn-dark btn-lg btn-block" type="button" onClick={(event) => openModal(event, classSession)}>Go to Registration</button>
                   </div>
                 </div>
               ))}
