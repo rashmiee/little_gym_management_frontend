@@ -140,7 +140,7 @@ export default function ChildRegistration() {
       FirstName: fname,
       LastName: lname,
       Email: email,
-      Password: password,
+      Password: "password",
       PhoneNo: phoneno,
       Type: "Child",
       UserEmail: userEmail,
@@ -268,38 +268,6 @@ export default function ChildRegistration() {
                   {!isPhoneValid && (
                     <div className="invalid-feedback">
                       Please enter a valid 10-digit phone number.
-                    </div>
-                  )}
-                </div>
-                <div
-                  data-mdb-input-init
-                  className={`form-outline mb-4 ${
-                    isPasswordValid ? "" : "has-invalid"
-                  }`}
-                >
-                  <input
-                    type="password"
-                    id="txtPassword"
-                    className={`form-control form-control-lg ${
-                      isPasswordValid ? "" : "is-invalid"
-                    }`}
-                    onChange={(e) => handlePasswordChange(e.target.value)}
-                    value={password}
-                  />
-                  <label
-                    className="form-label d-block text-center"
-                    htmlFor="txtPassword"
-                  >
-                    Password{" "}
-                    {isPasswordValid ? (
-                      <span className="span-red">*</span>
-                    ) : (
-                      "(required - Password must be at least 5 characters long)"
-                    )}
-                  </label>
-                  {!isPasswordValid && (
-                    <div className="invalid-feedback">
-                      Password must be at least 5 characters long.
                     </div>
                   )}
                 </div>

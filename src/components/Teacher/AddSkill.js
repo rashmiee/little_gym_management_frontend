@@ -136,7 +136,7 @@ export default function AddSkill() {
                 value={name}
               />
               <label
-                className="form-label d-block text-center"
+                className="form-label d-block text-center fw-bolder"
                 htmlFor="txtName"
               >
                 Name{" "}
@@ -158,7 +158,7 @@ export default function AddSkill() {
                 value={description}
               />
               <label
-                className="form-label d-block text-center"
+                className="form-label d-block text-center fw-bolder"
                 htmlFor="txtDescription"
               >
                 Description{" "}

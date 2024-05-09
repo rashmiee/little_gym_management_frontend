@@ -135,7 +135,7 @@ export default function AddLesson() {
                 value={name}
               />
               <label
-                className="form-label d-block text-center"
+                className="form-label d-block text-center fw-bolder"
                 htmlFor="txtName"
               >
                 Name{" "}
@@ -157,7 +157,7 @@ export default function AddLesson() {
                 value={description}
               />
               <label
-                className="form-label d-block text-center"
+                className="form-label d-block text-center fw-bolder"
                 htmlFor="txtDescription"
               >
                 Description{" "}

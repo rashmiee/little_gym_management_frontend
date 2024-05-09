@@ -173,12 +173,12 @@ export default function TeacherRegistration() {
               <div class="column-custom">
                 <div
                 data-mdb-input-init
-                className={`form-outline mb-4 ${
+                className={`form-outline ${
                   isFnameValid ? "" : "has-invalid"
                 }`}
               >
                 <label
-                  className="form-label d-block text-center"
+                  className="form-label d-block text-center fw-bolder"
                   htmlFor="txtFname"
                 >
                   First name{" "}
@@ -196,12 +196,12 @@ export default function TeacherRegistration() {
               </div>
               <div
                 data-mdb-input-init
-                className={`form-outline mb-4 ${
+                className={`form-outline ${
                   isLnameValid ? "" : "has-invalid"
                 }`}
               >
                 <label
-                  className="form-label d-block text-center"
+                  className="form-label d-block text-center fw-bolder"
                   htmlFor="txtLname"
                 >
                   Last name{" "}
@@ -220,12 +220,12 @@ export default function TeacherRegistration() {
               </div>
               <div
                 data-mdb-input-init
-                className={`form-outline mb-4 ${
+                className={`form-outline ${
                   isPhoneValid ? "" : "has-invalid"
                 }`}
               >
                 <label
-                  className="form-label d-block text-center"
+                  className="form-label d-block text-center fw-bolder"
                   htmlFor="txtPhoneno"
                 >
                   Phone Number{" "}
@@ -251,12 +251,12 @@ export default function TeacherRegistration() {
               </div>
               <div
                 data-mdb-input-init
-                className={`form-outline mb-4 ${
+                className={`form-outline ${
                   isPasswordValid ? "" : "has-invalid"
                 }`}
               >
                 <label
-                  className="form-label d-block text-center"
+                  className="form-label d-block text-center fw-bolder"
                   htmlFor="txtPassword"
                 >
                   Password{" "}
@@ -282,12 +282,12 @@ export default function TeacherRegistration() {
               </div>
               <div
                 data-mdb-input-init
-                className={`form-outline mb-4 ${
+                className={`form-outline ${
                   isEmailValid ? "" : "has-invalid"
                 }`}
               >
                 <label
-                  className="form-label d-block text-center"
+                  className="form-label d-block text-center fw-bolder"
                   htmlFor="txtEmail"
                 >
                   Email{" "}

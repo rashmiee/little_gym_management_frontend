@@ -239,7 +239,7 @@ export default function AddClassSession() {
                   value={name}
                 />
                 <label
-                  className="form-label d-block text-center"
+                  className="form-label d-block text-center fw-bolder fw-bolder"
                   htmlFor="txtName"
                 >
                   Name{" "}
@@ -260,7 +260,7 @@ export default function AddClassSession() {
                     <option key={option.value} value={option.value}>{option.label}</option>
                   ))}
                 </select>
-                <label htmlFor="categorySelect">Category</label>
+                <label htmlFor="categorySelect" className="fw-bolder">Category</label>
                 {!isCategoryValid && <div className="invalid-feedback">Please select a category.</div>}
               </div>
               {/* Other input fields for Description, Image, Price, StartTime, StartDate, EndDate */}
@@ -275,7 +275,7 @@ export default function AddClassSession() {
                   value={description}
                 />
                 <label
-                  className="form-label d-block text-center"
+                  className="form-label d-block text-center fw-bolder fw-bolder"
                   htmlFor="txtDescription"
                 >
                   Description
@@ -290,7 +290,7 @@ export default function AddClassSession() {
                   accept="image/*" // Accept only image files
                   onChange={handleImageChange}
                 />
-                <label htmlFor="imageInput" className="form-label">Select Image</label>
+                <label htmlFor="imageInput" className="form-label fw-bolder fw-bolder">Select Image</label>
               </div>
               <div
                 data-mdb-input-init
@@ -304,7 +304,7 @@ export default function AddClassSession() {
                   value={price}
                 />
                 <label
-                  className="form-label d-block text-center"
+                  className="form-label d-block text-center fw-bolder"
                   htmlFor="txtPrice"
                 >
                   Price
@@ -323,7 +323,7 @@ export default function AddClassSession() {
                   value={startTime}
                 />
                 <label
-                  className="form-label d-block text-center"
+                  className="form-label d-block text-center fw-bolder"
                   htmlFor="txtStartTime"
                 >
                   Start Time
@@ -342,7 +342,7 @@ export default function AddClassSession() {
                   value={startDate}
                 />
                 <label
-                  className="form-label d-block text-center"
+                  className="form-label d-block text-center fw-bolder"
                   htmlFor="txtStartDate"
                 >
                   Start Date
@@ -361,7 +361,7 @@ export default function AddClassSession() {
                   value={endDate}
                 />
                 <label
-                  className="form-label d-block text-center"
+                  className="form-label d-block text-center fw-bolder"
                   htmlFor="txtEndDate"
                 >
                   End Date
@@ -374,7 +374,7 @@ export default function AddClassSession() {
                   type="button"
                   data-mdb-button-init
                   data-mdb-ripple-init
-                  className="btn btn-warning btn-lg ms-2"
+                  className="btn btn-dark btn-lg btn-block"
                   onClick={() => handleSave()}
                 >
                   Submit form
