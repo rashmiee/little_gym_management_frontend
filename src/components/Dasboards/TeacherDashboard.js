@@ -1,4 +1,3 @@
-
 import TeacherHeader from "./TeacherHeader";
 import React, { useEffect, useState, Fragment } from 'react';
 import axios from 'axios';
@@ -6,16 +5,19 @@ import { Bar, Pie, Line } from 'react-chartjs-2';
 import '../styles/AdminDashboard.css';
 import { Chart as ChartJS } from 'chart.js/auto'
 
-export default function TeacherDashboard()
-{
+export default function TeacherDashboard() {
   const [userData, setUserData] = useState([]);
   const [classSessions, setClassSessions] = useState([]);
   const [skillProgressData, setSkillProgressData] = useState([]);
+  const [skillCount, setSkillCount] = useState(0);
+  const [lessonCount, setLessonCount] = useState(0);
 
   useEffect(() => {
     fetchData();
     fetchClassSessions();
     fetchSkillProgress();
+    fetchSkillCount();
+    fetchLessonCount();
   }, []);
 
   const fetchData = async () => {
@@ -42,6 +44,24 @@ export default function TeacherDashboard()
       setSkillProgressData(response.data);
     } catch (error) {
       console.error('Error fetching skill progress data:', error);
+    }
+  };
+
+  const fetchSkillCount = async () => {
+    try {
+      const response = await axios.get('/api/Skill/getAllSkills');
+      setSkillCount(response.data.length);
+    } catch (error) {
+      console.error('Error fetching skill count:', error);
+    }
+  };
+
+  const fetchLessonCount = async () => {
+    try {
+      const response = await axios.get('/api/Lesson/getAllLessons');
+      setLessonCount(response.data.length);
+    } catch (error) {
+      console.error('Error fetching lesson count:', error);
     }
   };
 
@@ -239,6 +259,22 @@ export default function TeacherDashboard()
         <div className="chart-card">
           <h2>Skill Progress</h2>
           <Line data={skillProgressChartData} />
+        </div>
+        <div className="chart-card">
+          <h2>Skill Count</h2>
+          <div className="card-container">
+            <div className="count-card">
+              <p>{skillCount}</p>
+            </div>
+          </div>
+        </div>
+        <div className="chart-card">
+          <h2>Lesson Count</h2>
+          <div className="card-container">
+            <div className="count-card">
+              <p>{lessonCount}</p>
+            </div>
+          </div>
         </div>
       </div>
     );
