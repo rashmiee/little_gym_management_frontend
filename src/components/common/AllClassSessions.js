@@ -80,7 +80,7 @@ export default function AllClassSessions() {
     const payload = {
       user_id: selectedChildId,
       class_session_id: selectedClassSession.sessionClassId,
-      payment: false, // You can adjust this value as needed
+      payment: true, // You can adjust this value as needed
     };
 
     axios.post('/api/ClassRegistration/addClassRegistration', payload)
