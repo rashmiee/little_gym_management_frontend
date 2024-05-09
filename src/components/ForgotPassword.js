@@ -82,7 +82,7 @@ function ForgotPassword() {
                         </label>
                       </div>
 
-                      <div className="pt-2 mb-4">
+                      <div className="pt-2">
                         <button
                           data-mdb-button-init
                           data-mdb-ripple-init

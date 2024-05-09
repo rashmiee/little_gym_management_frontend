@@ -260,7 +260,7 @@ function Registration() {
                       )}
                     </div>
 
-                    <div className="d-flex justify-content-left pt-2 mb-4">
+                    <div className="d-flex justify-content-left pt-2 custom-reg-form-btn-style">
 
                       <button
                         type="button"
