@@ -178,9 +178,11 @@ export default function AllClassSessions() {
                         </div>
                       </div>
                     </Link>
-                    <div className="card-footer text-center">
-                    <button className="btn btn-dark btn-lg btn-block" type="button" onClick={(event) => openModal(event, classSession)}>Go to Registration</button>
-                  </div>
+                    {userType === "Users" && (
+                      <div className="card-footer text-center">
+                        <button className="btn btn-dark btn-lg btn-block" type="button" onClick={(event) => openModal(event, classSession)}>Go to Registration</button>
+                      </div>
+                    )}
                 </div>
               ))}
             </div>

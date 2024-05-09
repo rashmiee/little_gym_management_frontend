@@ -269,7 +269,7 @@ export default function SkillProgress() {
               <Modal show={showAddSkillModal} onClose={closeAddSkillModal}>
                 {selectedUser && (
                   <div>
-                    <h2>Finished Skills for Child: {selectedUser}</h2>
+                    <h2>Finished Skills for the Child</h2>
                     <table className="table table-striped custome-table-style">
                       <thead>
                         <tr>
@@ -279,13 +279,17 @@ export default function SkillProgress() {
                         </tr>
                       </thead>
                       <tbody>
-                        {finishedSkills.map((skill) => (
-                          <tr key={skill.Skill_ID}>
-                            <td>{skill.skill_ID}</td>
+                      {finishedSkills.map((skill, index) => {
+                        // Find the corresponding skill object
+                        const correspondingSkill = skills.find(skillObj => skillObj.skill_ID === skill.skill_ID);
+                        return (
+                          <tr key={index}>
+                            <td>{correspondingSkill ? correspondingSkill.name : 'Unknown Skill'}</td>
                             <td>{skill.status}</td>
                             <td>{skill.feedback}</td>
                           </tr>
-                        ))}
+                        );
+                      })}
                       </tbody>
                     </table>
                   </div>
