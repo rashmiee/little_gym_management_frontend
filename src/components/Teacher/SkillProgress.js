@@ -198,7 +198,7 @@ export default function SkillProgress() {
                         <option value="">Select Child</option>
                         {users.map((user) => (
                           <option key={user.id} value={user.id}>
-                            {user.firstName}
+                            {`${user.firstName} ${user.lastName}`}
                           </option>
                         ))}
                         <label htmlFor="User_ID">User</label>
@@ -214,7 +214,7 @@ export default function SkillProgress() {
                         <option value="">Select Skill</option>
                         {skills.map((skill) => (
                           <option key={skill.skill_ID} value={skill.skill_ID}>
-                            {skill.skill_ID}
+                            {skill.name}
                           </option>
                         ))}
                         <label htmlFor="Skill_ID">New Skill</label>
@@ -246,7 +246,7 @@ export default function SkillProgress() {
                               <option value="">Select Child</option>
                               {users.map((user) => (
                                 <option key={user.id} value={user.id}>
-                                  {user.id}
+                                  {`${user.firstName} ${user.lastName}`}
                                 </option>
                               ))}
                             </select>
@@ -320,8 +320,8 @@ export default function SkillProgress() {
                 <table className="table table-striped custome-table-style">
                   <thead>
                     <tr>
-                      <th>User ID</th>
-                      <th>Skill ID</th>
+                      <th>Child</th>
+                      <th>Skill</th>
                       <th>Status</th>
                       <th>Feedback</th>
                     </tr>
@@ -330,7 +330,7 @@ export default function SkillProgress() {
                     {userSkills.map((userSkill, index) => (
                       <tr key={index}>
                         <td>{userSkill.user_ID}</td>
-                        <td>{userSkill.skill_ID}</td>
+                        <td>{userSkill.name}</td>
                         <td>
                           <select
                             value={userSkill.status}

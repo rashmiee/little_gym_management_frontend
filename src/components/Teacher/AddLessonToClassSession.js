@@ -73,7 +73,7 @@ export default function AddLessonToClassSession() {
               <table className="table">
                 <thead>
                   <tr>
-                    <th scope="col">Session ID</th>
+                    <th scope="col">Class Name</th>
                     <th scope="col">Start Time</th>
                     <th scope="col">Lesson</th>
                   </tr>
@@ -81,7 +81,7 @@ export default function AddLessonToClassSession() {
                 <tbody>
                   {classSessions.map((session, index) => (
                     <tr key={index}>
-                      <td>{session.sessionClassId}</td>
+                      <td>{session.name}</td>
                       <td>{session.startTime}</td>
                       <td>
                         <select

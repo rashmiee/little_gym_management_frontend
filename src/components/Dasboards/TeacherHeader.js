@@ -53,7 +53,7 @@ export default function UserHeader() {
               </li>
               <li className="nav-item">
                 <Link to="/addLessonToClassSession" className="nav-link">
-                  Add Lesson To ClassSession
+                  Add Lesson To Classes
                 </Link>
               </li>
               <li className="nav-item">
