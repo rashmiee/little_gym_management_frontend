@@ -1,18 +1,56 @@
 .chart-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px; /* Small space between charts */
+  gap: 20px; /* Space between charts */
+  padding: 20px;
 }
 
 .chart-card {
-  flex-basis: calc(33.333% - 10px); /* Three charts per row */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow to create 3D effect */
-  border-radius: 8px; /* Rounded corners */
+  padding: 20px;
+  flex-grow: 1; /* Allow cards to grow as needed */
+  flex-shrink: 1; /* Allow cards to shrink if necessary */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Add shadow for 3D effect */
+  border-radius: 12px; /* Rounded corners */
   overflow: hidden; /* Hide overflow content */
   background-color: white; /* White background */
-  margin-bottom: 10px; /* Space between rows */
+  margin-bottom: 20px; /* Space between rows */
+  max-width: calc(30% - 20px);
 }
 
-.chart-card:nth-child(n + 4) {
-  flex-basis: calc(50% - 10px); /* Two charts per row starting from the fourth chart */
+.chart-card:nth-child(1) {
+  flex-grow: 1; /* First card grows twice as much as others */
+}
+
+.chart-card:nth-child(2) {
+  flex-grow: 2; /* Second card grows normally */
+}
+
+.chart-card:nth-child(3) {
+  flex-grow: 3; /* Third card grows three times as much as others */
+}
+
+/* table */
+.classes-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid #ddd;
+  background-color: white; /* Set background color to white */
+}
+
+.classes-table th, .classes-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.classes-table th {
+  background-color: #f2f2f2;
+}
+
+.classes-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.classes-table tr:hover {
+  background-color: #ddd;
 }
