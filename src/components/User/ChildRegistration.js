@@ -184,7 +184,7 @@ export default function ChildRegistration() {
         <div className="testbox">
           <form>
             <div className="banner">
-              <h1>Child Registration</h1>
+              <h1>Child Registration Form</h1>
             </div>
             <br />
             <fieldset>
@@ -203,7 +203,7 @@ export default function ChildRegistration() {
                     value={fname}
                   />
                   <label
-                    className="form-label d-block text-center"
+                    className="form-label d-block text-center fw-bold"
                     htmlFor="txtFname"
                   >
                     First name{" "}
@@ -228,7 +228,7 @@ export default function ChildRegistration() {
                     value={lname}
                   />
                   <label
-                    className="form-label d-block text-center"
+                    className="form-label d-block text-center fw-bold"
                     htmlFor="txtLname"
                   >
                     Last name{" "}
@@ -255,7 +255,7 @@ export default function ChildRegistration() {
                     value={phoneno}
                   />
                   <label
-                    className="form-label d-block text-center"
+                    className="form-label d-block text-center fw-bold"
                     htmlFor="txtPhoneno"
                   >
                     Phone Number{" "}
@@ -287,7 +287,7 @@ export default function ChildRegistration() {
                     value={email}
                   />
                   <label
-                    className="form-label d-block text-center"
+                    className="form-label d-block text-center fw-bold"
                     htmlFor="txtEmail"
                   >
                     Email{" "}

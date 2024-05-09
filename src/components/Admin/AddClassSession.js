@@ -219,7 +219,7 @@ export default function AddClassSession() {
         <div className="testbox">
           <form>
             <div className="banner">
-              <h1>Class Session Form</h1>
+              <h1>Class Creation Form</h1>
             </div>
             <br />
             <fieldset>
@@ -402,18 +402,20 @@ export default function AddClassSession() {
             {/* j------------ */}
             <div class="container container-custom">
               {classSessions.map(classSession => (
-                <div key={classSession.id} class="card">
+                <div key={classSession.id} class="card card-styled">
                     <img src={classSession.image} alt="Class Session" />
                     <div class="card-body">
                     <Link to={`/class/${classSession.sessionClassId}`} className="card-link">
-                      <h5 class="card-title">{classSession.name}</h5>
-                      <p class="card-text">{classSession.description}</p>
-                      <p class="card-text">Category: {classSession.category}</p>
-                      <p class="card-text">Price: ${classSession.price}</p>
-                      <p class="card-text">Start Time: {classSession.startTime}</p>
-                      <p class="card-text">Start Date: {classSession.startDate}</p>
-                      <p class="card-text">End Date: {classSession.endDate}</p>
-                      </Link>
+                      <h5 class="card-title title-styled">{classSession.name}</h5>
+                      <div class="centered-content">
+                        <p class="card-text description-styled">{classSession.description}</p>
+                        <p class="card-text category-styled">Category: {classSession.category}</p>
+                        <p class="card-text price-styled">Price: ${classSession.price}</p>
+                        <p class="card-text start-time-styled">Start Time: {classSession.startTime}</p>
+                        <p class="card-text start-date-styled">Start Date: {classSession.startDate}</p>
+                        <p class="card-text end-date-styled">End Date: {classSession.endDate}</p>
+                      </div>
+                    </Link>
                       <p class="card-footer text-center">
                         <button type="button" className="edit-btn-style" onClick={() => openEditModal(classSession)}>
                           <i className="fa fa-edit"></i>

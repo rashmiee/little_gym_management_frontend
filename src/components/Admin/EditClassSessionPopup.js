@@ -38,7 +38,7 @@ const EditClassSessionModal = ({ classSession, onClose, onUpdate }) => {
       <span className="close" onClick={onClose}>
         <i className="fa fa-times"></i>
       </span>
-        <h2 className="text-center">Edit classSession</h2>
+        <h2 className="text-center">Edit class</h2>
         <form>
           <label className="bold-label">First Name</label>
           <input

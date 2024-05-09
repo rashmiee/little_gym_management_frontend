@@ -159,21 +159,23 @@ export default function AllClassSessions() {
         <div className="testbox">
           <form>
             <div className="banner">
-              <h1>Classes</h1>
+              <h1>All Classes</h1>
             </div>
             <div className="container container-custom">
               {classSessions.map(classSession => (
-                <div key={classSession.id} className="card">
+                <div key={classSession.id} className="card card-styled">
                   <Link to={`/class/${classSession.sessionClassId}`} className="card-link">
                     <img src={classSession.image} alt="Class Session" />
                       <div className="card-body">
-                        <h5 className="card-title">{classSession.name}</h5>
-                        <p className="card-text">{classSession.description}</p>
-                        <p className="card-text">Category: {classSession.category}</p>
-                        <p className="card-text">Price: ${classSession.price}</p>
-                        <p className="card-text">Start Time: {classSession.startTime}</p>
-                        <p className="card-text">Start Date: {classSession.startDate}</p>
-                        <p className="card-text">End Date: {classSession.endDate}</p>
+                        <h5 class="card-title title-styled">{classSession.name}</h5>
+                        <p class="card-text description-styled">{classSession.description}</p>
+                        <div class="centered-content">
+                          <p class="card-text category-styled">Category: {classSession.category}</p>
+                          <p class="card-text price-styled">Price: ${classSession.price}</p>
+                          <p class="card-text start-time-styled">Start Time: {classSession.startTime}</p>
+                          <p class="card-text start-date-styled">Start Date: {classSession.startDate}</p>
+                          <p class="card-text end-date-styled">End Date: {classSession.endDate}</p>
+                        </div>
                       </div>
                     </Link>
                     <div className="card-footer text-center">

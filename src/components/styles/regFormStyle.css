@@ -51,7 +51,7 @@ form {
 .banner {
   position: relative;
   height: 250px;
-  background-image: url("../images/banner-teacher-reg.jpg");
+  background-image: url("../images/banner.jpg");
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -630,4 +630,65 @@ button:hover {
 
 .custom-reg-form-btn-style {
   margin-bottom: 20px !important;
+}
+
+.card-styled {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.card-styled:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.title-styled {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.description-styled {
+  font-size: 16px;
+  margin-bottom: 20px; /* Increased margin to create space */
+  text-align: center;
+}
+
+/* Styles for centered content */
+.centered-content {
+  text-align: center !important;
+}
+
+.category-styled,
+.price-styled,
+.start-time-styled,
+.start-date-styled,
+.end-date-styled {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+/* Adding a 3D effect */
+.card-styled {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-styled:before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  background: linear-gradient(145deg, #ffffff, #e0e0e0);
+  border-radius: 10px;
+  z-index: -1;
+  transition: transform 0.3s ease;
+}
+
+.card-styled:hover:before {
+  transform: scale(1.05);
 }
