@@ -2,6 +2,9 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AdminHeader from "../Dasboards/AdminHeader";
+import UserHeader from "../Dasboards/UserHeader";
+import TeacherHeader from "../Dasboards/TeacherHeader";
+
 import "../styles/regFormStyle.css";
 
 export default function AllClassSessions() {
@@ -17,6 +20,7 @@ export default function AllClassSessions() {
   const [registeredChildren, setRegisteredChildren] = useState([]);
 
   const [unregisteredChildren, setUnregisteredChildren] = useState([]);
+  const userType = localStorage.getItem("userType");
 
   useEffect(() => {
     // Fetch all class sessions when the component mounts
@@ -147,7 +151,9 @@ export default function AllClassSessions() {
   return (
     <Fragment>
       {/* <AdminHeader /> */}
-
+      {userType === "Admin" && <AdminHeader />}
+      {userType === "Users" && <UserHeader />}
+      {userType === "Teachers" && <TeacherHeader />}
       {/* Display Class */}
       <section>
         <div className="testbox">

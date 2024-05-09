@@ -3,11 +3,15 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import "../styles/ClassSessionDetails.css";
 import AdminHeader from "../Dasboards/AdminHeader";
+import UserHeader from "../Dasboards/UserHeader";
+import TeacherHeader from "../Dasboards/TeacherHeader";
 
 export default function ClassSessionDetails() {
   const { id } = useParams(); // Get id from route parameters
   const [classSession, setClassSession] = useState({});
   const [registrations, setRegistrations] = useState([]);
+
+  const userType = localStorage.getItem("userType");
 
   useEffect(() => {
     // Fetch class session details when component mounts
@@ -40,6 +44,10 @@ export default function ClassSessionDetails() {
   return (
     <Fragment>
       {/* <AdminHeader /> */}
+      {userType === "Admin" && <AdminHeader />}
+      {userType === "Users" && <UserHeader />}
+      {userType === "Teachers" && <TeacherHeader />}
+
       <div className="class-session-card">
         <div className="class-session-details">
           <div className="class-session-image">
