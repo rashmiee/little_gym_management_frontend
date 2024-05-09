@@ -204,7 +204,7 @@ export default function AllClassSessions() {
                           <td className="registered-children-table-cell">{registration.child?.firstName}</td>
                           <td className="registered-children-table-cell">{registration.child?.lastName}</td>
                           <td className="registered-children-table-cell">
-                            <button className="registered-children-delete-button" onClick={() => handleDeleteRegistration(registration.id)}>Delete</button>
+                            <button className="registered-children-delete-button" onClick={() => handleDeleteRegistration(registration.registration_id)}>Delete</button>
                           </td>
                         </tr>
                       ))}
