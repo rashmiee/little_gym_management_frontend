@@ -1,9 +1,9 @@
 import TeacherHeader from "./TeacherHeader";
 import React, { useEffect, useState, Fragment } from 'react';
 import axios from 'axios';
-import { Bar, Pie, Line } from 'react-chartjs-2';
+import { Bar, Pie, Line, Doughnut } from 'react-chartjs-2';
 import '../styles/AdminDashboard.css';
-import { Chart as ChartJS } from 'chart.js/auto'
+import { Chart as ChartJS } from 'chart.js/auto';
 
 export default function TeacherDashboard() {
   const [userData, setUserData] = useState([]);
@@ -11,6 +11,7 @@ export default function TeacherDashboard() {
   const [skillProgressData, setSkillProgressData] = useState([]);
   const [skillCount, setSkillCount] = useState(0);
   const [lessonCount, setLessonCount] = useState(0);
+  const [classRegistrations, setClassRegistrations] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -18,6 +19,7 @@ export default function TeacherDashboard() {
     fetchSkillProgress();
     fetchSkillCount();
     fetchLessonCount();
+    fetchClassRegistrations();
   }, []);
 
   const fetchData = async () => {
@@ -65,39 +67,32 @@ export default function TeacherDashboard() {
     }
   };
 
-  const getUserTypeCounts = () => {
-    const userTypeCounts = {};
-    userData.forEach(user => {
-      if (user.type in userTypeCounts) {
-        userTypeCounts[user.type]++;
-      } else {
-        userTypeCounts[user.type] = 1;
-      }
-    });
-    return userTypeCounts;
+  const fetchClassRegistrations = async () => {
+    try {
+      const response = await axios.get('/api/ClassRegistration/getAllClassRegistrations');
+      setClassRegistrations(response.data);
+    } catch (error) {
+      console.error('Error fetching class registrations:', error);
+    }
   };
 
-  const getCategoryCounts = () => {
-    const categoryCounts = {};
-    classSessions.forEach(session => {
-      if (session.category in categoryCounts) {
-        categoryCounts[session.category]++;
-      } else {
-        categoryCounts[session.category] = 1;
-      }
+  const getClassesWithRegistrations = () => {
+    return classSessions.filter(session => {
+      return classRegistrations.some(registration => registration.class_session_id === session.sessionClassId);
     });
-    return categoryCounts;
   };
 
-  const getCurrentMonthClasses = () => {
+  const getClassRegistrationCount = (classSessionId) => {
+    debugger
+    return classRegistrations.filter(registration => registration.class_session_id === classSessionId).length;
+  };
+
+  const getFinishedClasses = () => {
     const currentDate = new Date();
-    const currentMonth = currentDate.getMonth() + 1; // Months are zero-based
-    const currentYear = currentDate.getFullYear();
 
     return classSessions.filter(session => {
-      if (!session.endDate) return false; // Skip classes without end date
       const endDate = new Date(session.endDate);
-      return endDate.getMonth() + 1 === currentMonth && endDate.getFullYear() === currentYear;
+      return endDate < currentDate;
     });
   };
 
@@ -111,15 +106,6 @@ export default function TeacherDashboard() {
     });
   };
 
-  const getFinishedClasses = () => {
-    const currentDate = new Date();
-
-    return classSessions.filter(session => {
-      const endDate = new Date(session.endDate);
-      return endDate < currentDate;
-    });
-  };
-
   const renderClassesTable = (classes) => {
     return (
       <table className="classes-table">
@@ -129,6 +115,7 @@ export default function TeacherDashboard() {
             <th>Category</th>
             <th>Start Date</th>
             <th>End Date</th>
+            <th>Registrations</th>
           </tr>
         </thead>
         <tbody>
@@ -138,6 +125,7 @@ export default function TeacherDashboard() {
               <td>{session.category}</td>
               <td>{new Date(session.startDate).toLocaleDateString()}</td>
               <td>{new Date(session.endDate).toLocaleDateString()}</td>
+              <td>{getClassRegistrationCount(session.sessionClassId)}</td>
             </tr>
           ))}
         </tbody>
@@ -194,6 +182,44 @@ export default function TeacherDashboard() {
     const skillProgressChartData = {
       labels: skillProgressLabels,
       datasets: skillProgressDataSets
+    };
+
+    const classRegistrationLabels = getClassesWithRegistrations().map(session => session.name);
+    const classRegistrationData = getClassesWithRegistrations().map(session => getClassRegistrationCount(session.sessionClassId));
+
+    const classRegistrationChartData = {
+      labels: classRegistrationLabels,
+      datasets: [
+        {
+          label: 'Class Registrations',
+          data: classRegistrationData,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.4)',    // Red
+            'rgba(54, 162, 235, 0.4)',    // Blue
+            'rgba(255, 206, 86, 0.4)',    // Yellow
+            'rgba(75, 192, 192, 0.4)',    // Teal
+            'rgba(153, 102, 255, 0.4)',   // Purple
+            'rgba(255, 159, 64, 0.4)',    // Orange
+            'rgba(51, 204, 51, 0.4)',     // Green
+            'rgba(255, 0, 255, 0.4)',     // Magenta
+            'rgba(0, 204, 204, 0.4)',     // Cyan
+            'rgba(128, 128, 128, 0.4)',
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 0.4)',    // Red
+            'rgba(54, 162, 235, 0.4)',    // Blue
+            'rgba(255, 206, 86, 0.4)',    // Yellow
+            'rgba(75, 192, 192, 0.4)',    // Teal
+            'rgba(153, 102, 255, 0.4)',   // Purple
+            'rgba(255, 159, 64, 0.4)',    // Orange
+            'rgba(51, 204, 51, 0.4)',     // Green
+            'rgba(255, 0, 255, 0.4)',     // Magenta
+            'rgba(0, 204, 204, 0.4)',     // Cyan
+            'rgba(128, 128, 128, 0.4)',
+          ],
+          borderWidth: 1,
+        },
+      ],
     };
 
     return (
@@ -275,6 +301,10 @@ export default function TeacherDashboard() {
               <p>{lessonCount}</p>
             </div>
           </div>
+        </div>
+        <div className="chart-card">
+          <h2>Class Registrations</h2>
+          <Doughnut data={classRegistrationChartData} />
         </div>
       </div>
     );
