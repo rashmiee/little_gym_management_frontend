@@ -53,7 +53,7 @@ export default function UserHeader() {
               </li>
               <li className="nav-item">
                 <Link to="/allClassSessions" className="nav-link">
-                  All Class Sessions
+                  All Classes
                 </Link>
               </li>
             </ul>

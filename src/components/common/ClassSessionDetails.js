@@ -35,15 +35,52 @@ export default function ClassSessionDetails() {
       const response = await axios.get(
         `/api/ClassRegistration/getClassRegistrationsByClassSession/${id}`
       );
-      setRegistrations(response.data);
+
+      const registrationsWithUserDetails = await Promise.all(
+        response.data.map(async (registration) => {
+          try {
+            // Fetch all user data
+            const userResponse = await axios.get(`/api/Users/getChildren`);
+            if (userResponse.data.length > 0) {
+              // Filter user data by user_id from registration
+              const user = userResponse.data.find(user => user.id === registration.user_id);
+              if (user) {
+                // If user found, extract first name and last name
+                const { firstName, lastName } = user;
+                return {
+                  ...registration,
+                  firstName,
+                  lastName
+                };
+              }
+            }
+            // If user not found, set name as 'Unknown'
+            return {
+              ...registration,
+              firstName: 'Unknown',
+              lastName: 'Unknown'
+            };
+          } catch (error) {
+            console.error("Error fetching user details:", error);
+            return {
+              ...registration,
+              firstName: 'Unknown',
+              lastName: 'Unknown'
+            };
+          }
+        })
+      );
+
+      setRegistrations(registrationsWithUserDetails);
     } catch (error) {
       console.error("Error fetching class session registrations:", error);
     }
   };
 
+
+
   return (
     <Fragment>
-      {/* <AdminHeader /> */}
       {userType === "Admin" && <AdminHeader />}
       {userType === "Users" && <UserHeader />}
       {userType === "Teachers" && <TeacherHeader />}
@@ -62,25 +99,35 @@ export default function ClassSessionDetails() {
               <strong>Description:</strong> {classSession.description}
             </p>
             <p>
-              <strong>Price:</strong> {classSession.price}
+              <strong>Price:</strong> ${classSession.price}
             </p>
             <p>
               <strong>Start Time:</strong> {classSession.startTime}
             </p>
             <p>
-              <strong>Start Date:</strong> {classSession.startDate}
+              <strong>Start Date:</strong>{" "}
+              {new Date(classSession.startDate).toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
             </p>
             <p>
-              <strong>End Date:</strong> {classSession.endDate}
+              <strong>Start Date:</strong>{" "}
+              {new Date(classSession.endDate).toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
             </p>
             {/* Add more details as needed */}
           </div>
         </div>
       </div>
       <section>
-        <div class="testbox">
+        <div className="testbox">
           <form>
-            <div class="banner">
+            <div className="banner">
               <h1>Class Registrations</h1>
             </div>
             {registrations.length === 0 ? (
@@ -90,7 +137,7 @@ export default function ClassSessionDetails() {
                 <thead>
                   <tr>
                     <th scope="col">Registration ID</th>
-                    <th scope="col">User ID</th>
+                    <th scope="col">User</th>
                     <th scope="col">Payment</th>
                     <th scope="col">Register Date</th>
                   </tr>
@@ -99,7 +146,7 @@ export default function ClassSessionDetails() {
                   {registrations.map((registration) => (
                     <tr key={registration.registration_id}>
                       <td>{registration.registration_id}</td>
-                      <td>{registration.user_id}</td>
+                      <td>{`${registration.firstName} ${registration.lastName}`}</td>
                       <td>{registration.payment ? "Paid" : "Not Paid"}</td>
                       <td>
                         {new Date(
