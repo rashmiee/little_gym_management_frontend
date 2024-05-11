@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import axios from "axios";
 import TeacherHeader from "../Dasboards/TeacherHeader";
 import Modal from "./UserSkillProgressModal"; // Import your modal component here
+import Swal from 'sweetalert2'
 
 export default function SkillProgress() {
   const [skills, setSkills] = useState([]);
@@ -87,7 +88,10 @@ export default function SkillProgress() {
     axios
       .put("/api/SkillProgress/updateSkillProgressStatus", requestData)
       .then((response) => {
-        alert(response.data.statusMessage);
+        Swal.fire({
+          title: 'Success!',
+          text: response.data.statusMessage
+        });
         // Update userSkills state with the new status
         setUserSkills((prevUserSkills) => {
           const updatedUserSkills = prevUserSkills.map((skill) => {
@@ -118,7 +122,10 @@ export default function SkillProgress() {
           `/api/SkillProgress/addSkillProgress?User_ID=${selectedUser_ID}&Skill_ID=${newSkill_ID}`
         )
         .then((response) => {
-          alert(response.data.statusMessage);
+          Swal.fire({
+            title: 'Success!',
+            text: response.data.statusMessage
+          });
           fetchUserSkills();
           setNewSkill_ID("");
           setSelectedUser_ID("");
@@ -127,9 +134,15 @@ export default function SkillProgress() {
           console.error("Error adding new skill:", error);
         });
     } else if (isSkillAlreadyAdded) {
-      alert("This skill is already added for the selected user.");
+      Swal.fire({
+        title: 'Error',
+        text: "This skill is already added for the selected user."
+      });
     } else {
-      alert("Please select a user and a skill to add.");
+      Swal.fire({
+        title: 'Error',
+        text: "Please select a user and a skill to add."
+      });
     }
   };
 
@@ -159,7 +172,10 @@ export default function SkillProgress() {
           `/api/SkillProgress/updateUserSkillFeedback?User_ID=${selectedUserSkill.user_ID}&Skill_ID=${selectedUserSkill.skill_ID}&feedback=${feedbackText}`
         )
         .then((response) => {
-          alert(response.data.statusMessage);
+          Swal.fire({
+            title: 'Success!',
+            text: response.data.statusMessage
+          });
           // Fetch the updated user skills after submitting the feedback
           fetchUserSkills();
           setFeedbackText(""); // Clear feedback text
@@ -169,7 +185,10 @@ export default function SkillProgress() {
           console.error("Error updating skill feedback:", error);
         });
     } else {
-      alert("Please enter feedback.");
+      Swal.fire({
+        title: 'Error',
+        text: "Please enter feedback."
+      });
     }
   };
 

@@ -4,6 +4,7 @@ import axios from 'axios';
 import AdminHeader from "../Dasboards/AdminHeader";
 import UserHeader from "../Dasboards/UserHeader";
 import TeacherHeader from "../Dasboards/TeacherHeader";
+import Swal from 'sweetalert2'
 
 import "../styles/regFormStyle.css";
 
@@ -91,8 +92,10 @@ export default function AllClassSessions() {
 
     axios.post('/api/ClassRegistration/addClassRegistration', payload)
       .then(response => {
-        // Registration successful, show alert and update registered children list
-        alert('Registration successful');
+        Swal.fire({
+          title: 'Success!',
+          text: "Registration successful!"
+        });
         fetchRegisteredChildren(selectedClassSession.sessionClassId); // Fetch registered children for the list
         fetchUnregisteredChildren(selectedClassSession.sessionClassId); // Fetch unregistered children for the dropdown
       })
@@ -128,12 +131,18 @@ export default function AllClassSessions() {
     axios
       .delete(`/api/ClassRegistration/deleteClassRegistration/${registrationId}`)
       .then((response) => {
-        alert('Registration deleted successfully');
+        Swal.fire({
+          title: 'Success!',
+          text: 'Registration deleted successfully'
+        });
         fetchRegisteredChildren(selectedClassSession.sessionClassId); // Fetch registered children again after deletion
         fetchUnregisteredChildren(selectedClassSession.sessionClassId); // Update unregistered children in dropdown
       })
       .catch((error) => {
-        console.error("Error deleting registration:", error);
+        Swal.fire({
+          title: 'Error',
+          text: "Error deleting registration!"
+        });
       });
   };
 

@@ -3,6 +3,7 @@ import axios from 'axios'; // Import Axios
 import {useNavigate, Link} from "react-router-dom";
 import logo from './images/logo.png';
 import './styles/loginReg.css';
+import Swal from 'sweetalert2'
 
 function Login() {
   useEffect(() => {
@@ -39,12 +40,17 @@ function Login() {
           }
         }
       } else {
-        alert(dt.statusMessage);
+        Swal.fire({
+          title: 'Error',
+          text: dt.statusMessage
+        });
       }
     })
     .catch((error) => {
-      // Displaying status message from the API response instead of generic error
-      alert("User is not Valid!");
+      Swal.fire({
+        title: 'Error',
+        text: "User is not Valid!"
+      });
     });
   };
 

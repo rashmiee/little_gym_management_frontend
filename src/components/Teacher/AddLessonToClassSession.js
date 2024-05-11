@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import axios from 'axios';
 import TeacherHeader from "../Dasboards/TeacherHeader";
+import Swal from 'sweetalert2'
 
 export default function AddLessonToClassSession() {
   const [classSessions, setClassSessions] = useState([]);
@@ -47,7 +48,11 @@ export default function AddLessonToClassSession() {
   const handleLessonChange = (sessionClassId, lessonId) => {
     axios.post(`/api/ClassSession/addClassSessionLesson?classSessionId=${sessionClassId}&lesson_Id=${lessonId}`)
       .then(response => {
-        alert(response.data.statusMessage);
+        Swal.fire({
+          title: 'Success!',
+          text: response.data.statusMessage
+        });
+
         // Update sessionLessonMap with the new lesson ID
         setSessionLessonMap(prevState => ({
           ...prevState,

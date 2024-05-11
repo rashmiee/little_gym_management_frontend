@@ -4,6 +4,7 @@ import axios from 'axios';
 import AdminHeader from "../Dasboards/AdminHeader";
 import "../styles/regFormStyle.css";
 import EditClassSessionModal from "./EditClassSessionPopup";
+import Swal from 'sweetalert2'
 
 export default function AddClassSession() {
   const [name, setName] = useState('');
@@ -53,13 +54,18 @@ export default function AddClassSession() {
     axios
       .put(`/api/ClassSession/${updatedClassSession.sessionClassId}`, updatedClassSession)
       .then((result) => {
-        alert(result.data.statusMessage);
+        Swal.fire({
+          title: 'Success!',
+          text: result.data.statusMessage
+        });
         closeEditModal(); // Close the modal after successful update
         fetchClassSessions();
       })
       .catch((error) => {
-        console.error("Error updating teacher:", error);
-        alert("Error updating teacher. Please try again.");
+        Swal.fire({
+          title: 'Error',
+          text: "Error updating teacher. Please try again."
+        });
       });
   };
 
@@ -70,13 +76,18 @@ export default function AddClassSession() {
       axios
         .delete(url)
         .then((result) => {
-          alert(result.data.statusMessage);
+          Swal.fire({
+            title: 'Success!',
+            text: result.data.statusMessage
+          });
           // Fetch updated list of teachers
           fetchClassSessions();
         })
         .catch((error) => {
-          console.error("Error deleting class:", error);
-          alert("Error deleting class. Please try again.");
+          Swal.fire({
+            title: 'Error',
+            text: "Error deleting class. Please try again."
+          });
         });
     }
   };
@@ -139,7 +150,11 @@ export default function AddClassSession() {
 
   const handleSave = async () => {
     if (!isNameValid || !isCategoryValid || !isPriceValid || !isStartTimeValid || !isStartDateValid || !isEndDateValid) {
-      alert('Please fill in all fields correctly.');
+      Swal.fire({
+        title: 'Error',
+        text: "Please fill in all fields correctly."
+      });
+
       return;
     }
 
@@ -169,7 +184,10 @@ export default function AddClassSession() {
           }
         });
         const dt = result.data;
-        alert(dt.statusMessage);
+        Swal.fire({
+          title: 'Success!',
+          text: dt.statusMessage
+        });
 
         // Update class sessions state with the newly added session
         setClassSessions(prevState => [...prevState, {
@@ -186,7 +204,10 @@ export default function AddClassSession() {
 
         clear();
       } catch (error) {
-        alert(error.message);
+        Swal.fire({
+          title: 'Error',
+          text: error.message
+        });
       }
     };
 

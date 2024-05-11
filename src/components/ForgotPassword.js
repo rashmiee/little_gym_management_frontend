@@ -3,6 +3,7 @@ import axios from 'axios';
 import logo from './images/logo.png';
 import './styles/loginReg.css';
 import {useNavigate, Link} from "react-router-dom";
+import Swal from 'sweetalert2'
 
 function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -19,7 +20,11 @@ function ForgotPassword() {
     })
     .then((response) => {
       const dt = response.data;
-      alert(dt.statusMessage); // Display an alert with the status message
+      Swal.fire({
+        title: 'Success!',
+        text: dt.statusMessage
+      });
+
     })
     .catch((error) => {
       console.error("Error:", error);

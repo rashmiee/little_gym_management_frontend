@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import axios from 'axios';
 import TeacherHeader from "../Dasboards/TeacherHeader";
 import EditLessonModal from "./EditLessonPopup";
+import Swal from 'sweetalert2'
 
 export default function AddLesson() {
   const [lessons, setLessons] = useState([]);
@@ -26,33 +27,51 @@ export default function AddLesson() {
     axios
       .put(`/api/Lesson/${updatedLesson.lesson_id}`, updatedLesson)
       .then((result) => {
-        alert(result.data.statusMessage);
+        Swal.fire({
+          title: 'Success!',
+          text: result.data.statusMessage
+        });
         closeEditModal();
         fetchLessons(); // Fetch updated list of Lessons
       })
       .catch((error) => {
-        alert("Error updating Lessons. Please try again.");
+        Swal.fire({
+          title: 'Error',
+          text: "Error updating Lessons. Please try again."
+        });
       });
   };
 
   const confirmDelete = (lesson) => {
-    if (
-      window.confirm(
-        `Are you sure you want to delete ${lesson.name} ?`
-      )
-    ) {
-      const url = `/api/Lesson/${lesson.lesson_id}`;
-      axios
-        .delete(url)
-        .then((result) => {
-          alert(result.data.statusMessage);
-          fetchLessons();
-        })
-        .catch((error) => {
-          alert("Error deleting Lesson. This lesson is already added to the class.");
-        });
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `Are you sure you want to delete ${lesson.name}?`,
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const url = `/api/Lesson/${lesson.lesson_id}`;
+        axios
+          .delete(url)
+          .then((result) => {
+            Swal.fire({
+              title: 'Success!',
+              text: result.data.statusMessage
+            });
+            fetchLessons();
+          })
+          .catch((error) => {
+            Swal.fire({
+              title: 'Error',
+              text: "Error deleting Lesson. This lesson is already added to the class."
+            });
+          });
+      }
+    });
   };
+
 
   useEffect(() => {
     fetchLessons();
@@ -95,11 +114,17 @@ export default function AddLesson() {
       .then((result) => {
         clear();
         const dt = result.data;
-        alert(dt.statusMessage);
+        Swal.fire({
+          title: 'Success!',
+          text: dt.statusMessage
+        });
         fetchLessons();
       })
       .catch((error) => {
-        alert(error);
+        Swal.fire({
+          title: 'Error',
+          text: error
+        });
       });
   };
 

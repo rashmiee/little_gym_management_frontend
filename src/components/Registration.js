@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './styles/registrationStyle.css';
 import logo from './images/logo.png';
+import Swal from 'sweetalert2'
 
 function Registration() {
   const [fname, setFname] = useState('');
@@ -49,7 +50,10 @@ function Registration() {
 
   const handleSave = () => {
     if (!isEmailValid || !isPhoneValid || !isPasswordValid || !isFnameValid || !isLnameValid) {
-      alert('Please fill in all fields correctly.');
+      Swal.fire({
+        title: 'Error',
+        text: "Please fill in all fields correctly."
+      });
       return;
     }
     const data = {
@@ -65,11 +69,16 @@ function Registration() {
       .then((result) => {
         clear();
         const dt = result.data;
-        alert(dt.statusMessage);
-
+        Swal.fire({
+          title: 'Success!',
+          text: dt.statusMessage
+        });
       })
       .catch((error) => {
-        alert(error);
+        Swal.fire({
+          title: 'Error',
+          text: error
+        });
       });
   };
 

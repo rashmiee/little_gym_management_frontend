@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import axios from "axios";
 import UserHeader from "../Dasboards/UserHeader";
 import EditChildModal from "./EditChildPopup";
+import Swal from 'sweetalert2'
 
 export default function ChildRegistration() {
   const [children, setChildren] = useState([]);
@@ -32,7 +33,10 @@ export default function ChildRegistration() {
     axios
       .put(`/api/Users/${updatedChild.id}`, updatedChild)
       .then((result) => {
-        alert(result.data.statusMessage);
+        Swal.fire({
+          title: 'Success!',
+          text: result.data.statusMessage
+        });
         closeEditModal();
         const userEmail = localStorage.getItem("userEmail");
         if (userEmail) {
@@ -41,36 +45,48 @@ export default function ChildRegistration() {
         fetchChildren(userEmail); // Fetch updated list of Children
       })
       .catch((error) => {
-        console.error("Error updating Child:", error);
-        alert("Error updating Child. Please try again.");
+        Swal.fire({
+          title: 'Error',
+          text: "Error updating Child: Please Try again later."
+        });
       });
   };
 
   const confirmDelete = (child) => {
-    console.log(child);
-    if (
-      window.confirm(
-        `Are you sure you want to delete ${child.firstName} ${child.lastName}?`
-      )
-    ) {
-      const url = `/api/Users/${child.id}`;
-      console.log(child)
-      axios
-        .delete(url)
-        .then((result) => {
-          alert(result.data.statusMessage);
-          const userEmail = localStorage.getItem("userEmail");
-          if (userEmail) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `Are you sure you want to delete ${child.firstName} ${child.lastName}?`,
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const url = `/api/Users/${child.id}`;
+        axios
+          .delete(url)
+          .then((result) => {
+            //Swal.fire(result.data.statusMessage);
+            Swal.fire({
+              title: 'Success!',
+              text: result.data.statusMessage
+            });
+            const userEmail = localStorage.getItem("userEmail");
+            if (userEmail) {
+              fetchChildren(userEmail);
+            }
             fetchChildren(userEmail);
-          }
-          fetchChildren(userEmail);
-        })
-        .catch((error) => {
-          console.error("Error deleting child:", error);
-          alert("Error deleting child. Please try again.");
-        });
-    }
+          })
+          .catch((error) => {
+            Swal.fire({
+              title: 'Error',
+              text: "Error deleting child: This Child has registration for Classes."
+            });
+          });
+      }
+    });
   };
+
 
   useEffect(() => {
     const userEmail = localStorage.getItem("userEmail");
@@ -128,12 +144,18 @@ export default function ChildRegistration() {
       !isFnameValid ||
       !isLnameValid
     ) {
-      alert("Please fill in all fields correctly.");
+      Swal.fire({
+        title: 'Error',
+        text: "Please fill in all fields correctly."
+      });
       return;
     }
     const userEmail = localStorage.getItem("userEmail");
     if (!userEmail) {
-      alert("User email is not available. Please log in again.");
+      Swal.fire({
+        title: 'Error',
+        text: "User email is not available. Please log in again."
+      });
       return;
     }
     const data = {
@@ -151,11 +173,24 @@ export default function ChildRegistration() {
       .then((result) => {
         clear();
         const dt = result.data;
-        alert(dt.statusMessage);
-        fetchChildren(userEmail);
+        if(result.data.statusMessage === "User registration failed. User with this email already exists.") {
+          Swal.fire({
+            title: 'Error',
+            text: "User registration failed. User with this email already exists."
+          });
+        } else {
+          Swal.fire({
+            title: 'Success!',
+            text: result.data.statusMessage
+          });
+          fetchChildren(userEmail);
+        }
       })
       .catch((error) => {
-        alert(error);
+        Swal.fire({
+          title: 'Error',
+          text: error
+        });
       });
   };
 

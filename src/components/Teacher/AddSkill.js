@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import axios from 'axios';
 import TeacherHeader from "../Dasboards/TeacherHeader";
 import EditSkillModal from "./EditSkillPopup";
+import Swal from 'sweetalert2'
 
 export default function AddSkill() {
   const [skills, setSkills] = useState([]);
@@ -27,32 +28,49 @@ export default function AddSkill() {
     axios
       .put(`/api/Skill/${updatedSkill.skill_ID}`, updatedSkill)
       .then((result) => {
-        alert(result.data.statusMessage);
+        Swal.fire({
+          title: 'Success!',
+          text: result.data.statusMessage
+        });
         closeEditModal();
         fetchSkills(); // Fetch updated list of Skill
       })
       .catch((error) => {
-        alert("Error updating Skill. Please try again.");
+        Swal.fire({
+          title: 'Error',
+          text: "Error updating Skill. Please try again."
+        });
       });
   };
 
   const confirmDelete = (skill) => {
-    if (
-      window.confirm(
-        `Are you sure you want to delete ${skill.name} ?`
-      )
-    ) {
-      const url = `/api/Skill/${skill.skill_ID}`;
-      axios
-        .delete(url)
-        .then((result) => {
-          alert(result.data.statusMessage);
-          fetchSkills();
-        })
-        .catch((error) => {
-          alert("Error deleting Skill. This Skill is already added to the Progress.");
-        });
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `Are you sure you want to delete ${skill.name}?`,
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const url = `/api/Skill/${skill.skill_ID}`;
+        axios
+          .delete(url)
+          .then((result) => {
+            Swal.fire({
+              title: 'Success!',
+              text: result.data.statusMessage
+            });
+            fetchSkills();
+          })
+          .catch((error) => {
+            Swal.fire({
+              title: 'Error',
+              text: "Error deleting Skill. This Skill is already added to the Progress."
+            });
+          });
+      }
+    });
   };
 
   useEffect(() => {
@@ -96,11 +114,18 @@ export default function AddSkill() {
       .then((result) => {
         clear();
         const dt = result.data;
-        alert(dt.statusMessage);
+        Swal.fire({
+          title: 'Success!',
+          text: dt.statusMessage
+        });
         fetchSkills();
       })
       .catch((error) => {
-        alert(error);
+        Swal.fire({
+          title: 'Error',
+          text: error
+        });
+
       });
   };
 

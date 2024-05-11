@@ -4,6 +4,7 @@ import AdminHeader from "../Dasboards/AdminHeader";
 import EditTeacherModal from "./EditTeacherPopup";
 import "../styles/regFormStyle.css";
 import '@fortawesome/fontawesome-free/css/all.css';
+import Swal from 'sweetalert2'
 
 export default function TeacherRegistration() {
   const [teachers, setTeachers] = useState([]);
@@ -33,32 +34,51 @@ export default function TeacherRegistration() {
     axios
       .put(`/api/Users/${updatedTeacher.id}`, updatedTeacher)
       .then((result) => {
-        alert(result.data.statusMessage);
+        Swal.fire({
+          title: 'Success!',
+          text: result.data.statusMessage
+        });
         closeEditModal(); // Close the modal after successful update
         fetchTeachers(); // Fetch updated list of teachers
       })
       .catch((error) => {
-        console.error("Error updating teacher:", error);
-        alert("Error updating teacher. Please try again.");
+        Swal.fire({
+          title: 'Error',
+          text: "Error updating teacher. Please try again."
+        });
       });
   };
 
   const confirmDelete = (teacher) => {
-    console.log(teacher)
-    if (window.confirm(`Are you sure you want to delete ${teacher.firstName} ${teacher.lastName}?`)) {
-      const url = `/api/Users/${teacher.id}`;
-      axios
-        .delete(url)
-        .then((result) => {
-          alert(result.data.statusMessage);
-          // Fetch updated list of teachers
-          fetchTeachers();
-        })
-        .catch((error) => {
-          console.error("Error deleting teacher:", error);
-          alert("Error deleting teacher. Please try again.");
-        });
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `Are you sure you want to delete ${teacher.firstName} ${teacher.lastName}?`,
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const url = `/api/Users/${teacher.id}`;
+        axios
+          .delete(url)
+          .then((result) => {
+            Swal.fire({
+              title: 'Success!',
+              text: result.data.statusMessage
+            });
+            // Fetch updated list of teachers
+            fetchTeachers();
+          })
+          .catch((error) => {
+            console.error("Error deleting teacher:", error);
+            Swal.fire({
+              title: 'Error',
+              text: "Error deleting teacher. Please try again."
+            });
+          });
+      }
+    });
   };
 
   useEffect(() => {
@@ -131,12 +151,24 @@ export default function TeacherRegistration() {
       .then((result) => {
         clear();
         const dt = result.data;
-        alert(dt.statusMessage);
-        // Fetch updated list of teachers
-        fetchTeachers();
+        if(result.data.statusMessage === "User registration failed. User with this email already exists.") {
+          Swal.fire({
+            title: 'Error',
+            text: "User registration failed. User with this email already exists."
+          });
+        } else {
+          Swal.fire({
+            title: 'Success!',
+            text: result.data.statusMessage
+          });
+          fetchTeachers();
+        }
       })
       .catch((error) => {
-        alert(error);
+        Swal.fire({
+          title: 'Error',
+          text: error
+        });
       });
   };
 
