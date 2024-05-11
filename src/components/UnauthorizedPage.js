@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import unauthorize from './images/unathorize.png'
@@ -38,7 +38,13 @@ const StyledLink = styled(Link)`
   }
 `;
 
+
 const UnauthorizedPage = () => {
+
+useEffect(() => {
+  localStorage.clear();
+}, []);
+
   return (
     <UnauthorizedPageContainer>
       <Title>Unauthorized Access</Title>
@@ -47,6 +53,7 @@ const UnauthorizedPage = () => {
         Sorry, you are not authorized to access this page.
       </Message>
       <StyledLink to="/">Go to Home Page</StyledLink>
+
     </UnauthorizedPageContainer>
   );
 };

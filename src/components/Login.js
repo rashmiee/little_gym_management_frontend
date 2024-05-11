@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import Axios
 import {useNavigate, Link} from "react-router-dom";
 import logo from './images/logo.png';
 import './styles/loginReg.css';
 
 function Login() {
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -25,14 +28,14 @@ function Login() {
         if(email === "admin@admin.com" && password === "admin") {
           localStorage.setItem("userType", "Admin");
           localStorage.setItem("userEmail", email);
-          navigate("/adminDashboard");
+          window.location.href = "/adminDashboard";
         } else {
           localStorage.setItem("userEmail", email);
           localStorage.setItem("userType", dt.userType);
           if(dt.userType === 'Teachers') {
-            navigate("/teacherDashboard");
+          window.location.href = "/teacherDashboard";
           } else {
-            navigate("/userDashboard");
+            window.location.href = "/userDashboard";
           }
         }
       } else {

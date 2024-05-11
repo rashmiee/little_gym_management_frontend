@@ -18,6 +18,7 @@ export default function AllClassSessions() {
   const [selectedChildId, setSelectedChildId] = useState(null);
 
   const [registeredChildren, setRegisteredChildren] = useState([]);
+  const [loader, setLoader] = useState(false);
 
   const [unregisteredChildren, setUnregisteredChildren] = useState([]);
   const userType = localStorage.getItem("userType");
@@ -79,6 +80,7 @@ export default function AllClassSessions() {
   };
 
   const handleRegistration = (event) => {
+    setLoader(true);
     event.preventDefault(); // Prevent default form submission behavior
 
     const payload = {
@@ -96,6 +98,7 @@ export default function AllClassSessions() {
       })
       .catch(error => {
         console.error('Error registering:', error);
+        setLoader(false);
         // Handle error if registration fails
       });
   };
@@ -141,10 +144,13 @@ export default function AllClassSessions() {
       .then((response) => {
         const registeredChildIds = response.data.map(registration => registration.user_id);
         const unregisteredChildren = children.filter(child => !registeredChildIds.includes(child.id));
+        console.log("unregisteredChildren:"+unregisteredChildren);
         setUnregisteredChildren(unregisteredChildren); // Update the dropdown with unregistered children
+        setLoader(false);
       })
       .catch((error) => {
         console.error("Error fetching unregistered children for dropdown:", error);
+        setLoader(false);
       });
   };
 
@@ -198,13 +204,24 @@ export default function AllClassSessions() {
               <i className="fa fa-times"></i>
             </span>
             <h2>{selectedClassSession.name}</h2>
-            {/* Dropdown for selecting children */}
-            <select className="dropdown-3d" onChange={(e) => setSelectedChildId(e.target.value)}>
-              <option value="" disabled selected>Select the Child</option>
-              {children.map(child => (
-                <option key={child.id} value={child.id}>{`${child.firstName} ${child.lastName}`}</option>
-              ))}
-            </select>
+
+            {
+              loader ?
+              <div>
+                <div class="spinner-border text-danger" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+              :
+              //Dropdown for selecting children
+              <select className="dropdown-3d" onChange={(e) => setSelectedChildId(e.target.value)}>
+                <option value="" disabled selected>Select the Child</option>
+                {unregisteredChildren.map(child => (
+                  <option key={child.id} value={child.id}>{`${child.firstName} ${child.lastName}`}</option>
+                ))}
+              </select>
+            }
+
             {/* Registered children list with delete button */}
             <div className="registered-children-container">
               <h3 className="registered-children-title">Registered Children</h3>

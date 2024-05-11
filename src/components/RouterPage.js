@@ -31,24 +31,18 @@ import AddSkill from './Teacher/AddSkill';
 // SkillProgress
 import SkillProgress from './Teacher/SkillProgress';
 
-// Define a Higher-Order Component (HOC) for role-based access control
-const withRoleAccess = (WrappedComponent, allowedRoles) => {
-  const userRole = localStorage.getItem("userType");
-  if (userRole && allowedRoles.includes(userRole)) {
-    return <WrappedComponent />;
-  } else {
-    return <Navigate to="/unauthorized" replace />;
-  }
-};
-
-
 export default function RouterPage() {
-  const [userType, setUserType] = useState('');
 
-  useEffect(() => {
-    const storedUserType = localStorage.getItem('userType');
-    setUserType(storedUserType);
-  }, []);
+  // Define a Higher-Order Component (HOC) for role-based access control
+  const withRoleAccess = (WrappedComponent, allowedRoles) => {
+    const userType = localStorage.getItem('userType');
+      console.log("userType:", userType);
+      if (userType && allowedRoles.includes(userType)) {
+        return <WrappedComponent />;
+      } else {
+        return <Navigate to="/unauthorized" replace />;
+      }
+    };
 
   return (
     <Router>
@@ -56,28 +50,30 @@ export default function RouterPage() {
         <Route path="/" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
-        <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
         {/* User-specific routes */}
 
-        <Route path="/userDashboard" element={<UserDashboard/>} />
-        <Route path="/childRegistration" element={<ChildRegistration/>} />
+        <Route path="/userDashboard" element={withRoleAccess(UserDashboard, ['Users'])} />
+        <Route path="/childRegistration" element={withRoleAccess(ChildRegistration, ['Users'])} />
 
         {/* Admin-specific routes */}
-        <Route path="/adminDashboard" element={<AdminDashboard/>} />
-        <Route path="/teacherRegistration" element={<TeacherRegistration/>} />
-        <Route path="/addClassSession" element={<AddClassSession/>} />
+        <Route path="/adminDashboard" element={withRoleAccess(AdminDashboard, ['Admin'])} />
+        <Route path="/teacherRegistration" element={withRoleAccess(TeacherRegistration, ['Admin'])} />
+        <Route path="/addClassSession" element={withRoleAccess(AddClassSession, ['Admin'])} />
 
         {/* Teacher-specific routes */}
-        <Route path="/teacherDashboard" element={<TeacherDashboard/>} />
-        <Route path="/addLessonToClassSession" element={<AddLessonToClassSession/>} />
-        <Route path="/addLesson" element={<AddLesson/>} />
-        <Route path="/addSkill" element={<AddSkill/>} />
-        <Route path="/skillProgress" element={<SkillProgress/>} />
+        <Route path="/teacherDashboard" element={withRoleAccess(TeacherDashboard, ['Teachers'])} />
+        <Route path="/addLessonToClassSession" element={withRoleAccess(AddLessonToClassSession, ['Teachers'])} />
+        <Route path="/addLesson" element={withRoleAccess(AddLesson, ['Teachers'])} />
+        <Route path="/addSkill" element={withRoleAccess(AddSkill, ['Teachers'])} />
+        <Route path="/skillProgress" element={withRoleAccess(SkillProgress, ['Teachers'])} />
 
         {/* Common routes */}
         <Route path="/class/:id" element={<ClassSessionDetails />} />
         <Route path="/allClassSessions" element={<AllClassSessions />} />
+
+        <Route path="/unauthorized" element={<UnauthorizedPage />} />
+        <Route path="*" element={<Login />} />
       </Routes>
     </Router>
   );

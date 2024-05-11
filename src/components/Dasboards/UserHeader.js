@@ -9,7 +9,7 @@ export default function UserHeader() {
   useEffect(() => {
     const userEmail = localStorage.getItem("userEmail");
     if (!userEmail) {
-      navigate("/");
+      window.location.href = "/";
     } else {
       setEmail(userEmail);
     }
@@ -17,8 +17,8 @@ export default function UserHeader() {
 
   const logout = (e) => {
     e.preventDefault();
-    localStorage.removeItem("userEmail");
-    navigate("/");
+    localStorage.clear();
+    window.location.href = "/";
   };
 
   return (
