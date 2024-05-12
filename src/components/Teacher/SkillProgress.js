@@ -201,7 +201,7 @@ export default function SkillProgress() {
             <div className="banner">
               <h1>User Skills Progress</h1>
             </div>
-            <div className="column-custom">
+            <div className="column-custom-rt">
               {/* Skill create and Individual users in the same row */}
               <div className="row">
                 <div className="col">

@@ -45,6 +45,11 @@ export default function AddLessonToClassSession() {
       });
   };
 
+  function formatStartTime(startTime) {
+    const startTimeParts = startTime.split(":");
+    return new Date(0, 0, 0, startTimeParts[0], startTimeParts[1], startTimeParts[2]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+  }
+
   const handleLessonChange = (sessionClassId, lessonId) => {
     axios.post(`/api/ClassSession/addClassSessionLesson?classSessionId=${sessionClassId}&lesson_Id=${lessonId}`)
       .then(response => {
@@ -73,12 +78,13 @@ export default function AddLessonToClassSession() {
             <div className="banner">
               <h1>Add Lesson to Classes</h1>
             </div>
-            <div className="column-custom">
+            <div className="column-custom-st">
             {isLoaded ? (
               <table className="table">
                 <thead>
                   <tr>
                     <th scope="col">Class Name</th>
+                    <th scope="col">Start Date</th>
                     <th scope="col">Start Time</th>
                     <th scope="col">Lesson</th>
                   </tr>
@@ -87,7 +93,14 @@ export default function AddLessonToClassSession() {
                   {classSessions.map((session, index) => (
                     <tr key={index}>
                       <td>{session.name}</td>
-                      <td>{session.startTime}</td>
+                      <td>
+                      {new Date(session.startDate).toLocaleDateString(undefined, {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                      </td>
+                      <td>{formatStartTime(session.startTime)}</td>
                       <td>
                         <select
                           className="form-select"
