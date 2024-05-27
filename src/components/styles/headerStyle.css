@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:500&display=swap');
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+/* --------- START NAVBAR CSS -------- */
+.top-navbar {
+    background-color: #1d1e22;
+    padding: 15px 0;
+}
+.navbar-light .navbar-brand {
+    color: #fff !important;
+}
+.navbar-light .navbar-nav .nav-link{
+    text-transform: uppercase;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    color:#fff !important;
+    margin: 0 15px;
+}
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover{
+    color: #BABABC  !important;
+}
+.navbar-light .navbar-nav .nav-link.active{
+    color: red !important;
+}
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+    position: absolute;
+    background: #2B2853  !important;
+    padding: 0;
+    margin: -1px 0 0;
+    overflow: hidden;
+}
+.dropdown-item {
+    color: #fff !important;
+    padding: 5px 25px;
+}
+.dropdown-item:focus, .dropdown-item:hover {
+    text-decoration: none;
+    background-color: #fff;
+    color: #2b2843  !important;
+    transform: translateX(5px);
+    transition: .5s;
+}
+.dropdown:hover .dropdown-menu{
+    display: block;
+}
+/*** CTA 2 ***/
+/* Stylish-button
+---------------*/
+.et-button {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  overflow: hidden;
+  vertical-align: top;
+  display:inline-block;
+  margin-bottom: 4px;
+  outline:0;
+  border:none;
+  position: relative;
+  backface-visibility: hidden;
+  transition: all 300ms ease-out !important;
+  z-index: 1;
+  font-size: 12px;
+  line-height: 24px;
+  min-width: 120px;
+  text-align: center !important;
+  text-transform: uppercase;
+  padding: 12px 24px 12px 24px;
+  text-decoration: none
+  }
+
+
+.stylish-button,
+.stylish-button + a {
+  position: relative;
+  color: white !important;
+  transition: color .3s ease-out;
+  z-index: 2;
+  overflow: initial !important;
+  background-color: #880808;
+}
+
+.stylish-button:before,
+.stylish-button:after,
+.stylish-button + a:before,
+.stylish-button + a:after {
+  transition: transform .8s cubic-bezier(.19,1,.22,1), width .8s cubic-bezier(.19,1,.22,1);
+  z-index: -1;
+}
+
+.stylish-button:before,
+.stylish-button:after,
+.stylish-button + a:before,
+.stylish-button + a:after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: inherit;
+}
+
+.stylish-button:before,
+.stylish-button + a:before {
+  box-shadow: inset 0 0 0 1px #e0e0e0;
+}
+
+.stylish-button:after,
+.stylish-button + a:after {
+  width: 0 !important;
+}
+
+.stylish-button:hover,
+.stylish-button + a:hover {
+  color: #ffffff !important;
+}
+
+.stylish-button:hover:before,
+.stylish-button + a:hover:before {
+  -ms-transform: translate(12px,12px);
+  transform: translate(12px,12px);
+}
+
+.stylish-button:hover:after,
+.stylish-button + a:hover:after {
+  width: 100% !important;
+}
+
+.post-read-more:hover {
+  color: #ffffff !important;
+}
+
+.stylish-button:after {
+  background-color: #f60064;
+}
+
+
+/*
+================== RESPONSIVE ==================
+*/
+@media (max-width: 768px) {
+
+   .navbar-light .navbar-toggler {
+    background: #fff !important;
+    }
+
+}
+@media (max-width: 992px) {
+
+   .navbar-light .navbar-toggler {
+    background: #fff !important;
+    }
+
+}

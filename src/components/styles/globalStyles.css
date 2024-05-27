@@ -1,0 +1,25 @@
+/* globalStyles.css */
+body {
+  background-color: #9A616D
+}
+
+h1, h2, h3 {
+  color: #333;
+  /* Add other common styles for headings */
+}
+
+/* Define a common style for buttons */
+button {
+  padding: 10px 20px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  /* Add other common styles for buttons */
+}
+
+/* Style buttons within tables */
+table button {
+  /* Apply specific styles for buttons within tables */
+  background-color: #007bff;
+  color: #fff;
+}

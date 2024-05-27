@@ -1,0 +1,25 @@
+
+Γ£à Elasticsearch security features have been automatically configured!
+Γ£à Authentication is enabled and cluster connections are encrypted.
+
+Γä╣∩╕Å  Password for the elastic user (reset with `bin/elasticsearch-reset-password -u elastic`):
+  9+Z*hHZL8=RI51czz7TI
+
+Γä╣∩╕Å  HTTP CA certificate SHA-256 fingerprint:
+  f64d6c03e2b729f483fc5bbc8c8edc86250bbd9cf05defc993d859dbf6b0c36c
+
+Γä╣∩╕Å  Configure Kibana to use this cluster:
+ΓÇó Run Kibana and click the configuration link in the terminal when Kibana starts.
+ΓÇó Copy the following enrollment token and paste it into Kibana in your browser (valid for the next 30 minutes):
+  eyJ2ZXIiOiI4LjEzLjMiLCJhZHIiOlsiMTcyLjI2LjgwLjE6OTIwMCJdLCJmZ3IiOiJmNjRkNmMwM2UyYjcyOWY0ODNmYzViYmM4YzhlZGM4NjI1MGJiZDljZjA1ZGVmYzk5M2Q4NTlkYmY2YjBjMzZjIiwia2V5IjoiT2VLMlNJOEJUN3FnSjhpZDllSm06d1IwWWdQbmpTR21tZHVwMXA3bDFVdyJ9
+
+Γä╣∩╕Å  Configure other nodes to join this cluster:
+ΓÇó On this node:
+  Γüâ Create an enrollment token with `bin/elasticsearch-create-enrollment-token -s node`.
+  Γüâ Uncomment the transport.host setting at the end of config/elasticsearch.yml.
+  Γüâ Restart Elasticsearch.
+ΓÇó On other nodes:
+  Γüâ Start Elasticsearch with `bin/elasticsearch --enrollment-token <token>`, using the enrollment token that you generated.
+
+
+  cd C:\Users\User\Downloads\logstash-8.13.3-windows-x86_64\logstash-8.13.3\bin logstash.bat -f C:\Users\User\Downloads\logstash-8.13.3-windows-x86_64\logstash-8.13.3\logstash.conf
